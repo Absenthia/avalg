@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -217,6 +218,44 @@ public class Main {
     
     public BigInteger qOfX(BigInteger n, BigInteger x){
     	return (((n.pow(1/2)).add(x)).pow(2)).subtract(n);
+    }
+    
+    public BigInteger[] shanksTonelli(BigInteger x, BigInteger n, BigInteger p) throws NumberFormatException, IOException{
+    	BigInteger[] result = new BigInteger[2];
+    	BigInteger pMinusOne = p.subtract(BigInteger.ONE);
+    	BigInteger z = null;
+    	int s = pMinusOne.getLowestSetBit();
+    	if (s == 1){
+    		BigInteger r = modPow3(n, (p.add(BigInteger.ONE)).divide(BigInteger.valueOf(4)), p);
+    		result[0] = r;
+    		result[1] = r.negate();
+    		return result;
+    	}
+    	BigInteger q = pMinusOne.divide(BigInteger.valueOf(2).pow(s));
+    	BufferedReader br = new BufferedReader(new FileReader("primes.txt"));
+    	while(br.readLine() != null){
+    		z = BigInteger.valueOf((Integer.parseInt(br.readLine())));
+    		if(legendre(z, p) == -1){
+    			break;
+    		}
+    	}
+    	BigInteger c = modPow3(z, q, p);
+    	BigInteger r = modPow3(n, (q.add(BigInteger.ONE)).divide(BigInteger.valueOf(2)), p);
+    	BigInteger t = modPow3(n, q, p);
+    	BigInteger m = BigInteger.valueOf(s); //TODO - m int?
+    	for(int i = 1; i < Integer.parseInt(m.toString()); i++){
+    		if(((t.pow(i)).mod(p)).equals(BigInteger.ONE)){ //TODO - modPow3?
+    			break;
+    		}
+    		BigInteger b = modPow3(c, (BigInteger.valueOf(2)).pow(m.intValue()-i-1), p);
+    		r = modPow3(r.multiply(b), BigInteger.ONE, p);
+    		t = modPow3(t.multiply(b.pow(2)), BigInteger.ONE, p);
+    		c = modPow3(b.pow(2), BigInteger.ONE, p);
+    		m = BigInteger.valueOf(i);
+    	}
+    	result[0] = r;
+    	result[1] = p.subtract(r);
+    	return result;
     }
 
 }
