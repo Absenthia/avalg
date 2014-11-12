@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class Main {
 
-    int[] primes = {};
+    int[] primes;
     int iterations = 100;
 
     public static void main(String[] args) {
@@ -212,5 +212,7 @@ public class Main {
         BigDecimal eToPower = b.multiply(BigDecimal.valueOf(Math.pow(Math.E, sqrtTemp * (1 / 2))));
         return BigInteger.valueOf(eToPower.round(new MathContext(0, RoundingMode.FLOOR)).intValue());
     }
+    
+    
 
 }
