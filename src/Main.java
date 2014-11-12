@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,8 +7,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.Random;
 
 
@@ -124,30 +121,6 @@ public class Main {
         }
     }
 
-    /*int g (x) {
-        return (x * x + 1) % n;
-    }
-    int main () {
-        int n = 10403;
-        int x_fixed = 2;
-        int cycle_size = 2;
-        int x = 2;
-        int h = 1;
-        while (h == 1) {
-            int count = 1;
-            while (count <= cycle_size && h == 1) {
-                x = g(x);
-                count = count + 1;
-                h = gcd(x - x_fixed, n);
-            }
-            if (h != 1)
-                break;
-            cycle_size = 2 * cycle_size;
-            x_fixed = x;
-        }
-        cout << "\nThe factor is  " << h;
-    }*/
-
 
     public BigInteger pollardRhoNew(BigInteger n){
         BigInteger x = BigInteger.valueOf(2);
@@ -238,6 +211,10 @@ public class Main {
     	} else{
     		return -1;
     	}
+    }
+    
+    public BigInteger qOfX(BigInteger n, BigInteger x){
+    	return (((n.pow(1/2)).add(x)).pow(2)).subtract(n);
     }
 
 }
