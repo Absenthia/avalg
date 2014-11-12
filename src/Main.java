@@ -1,3 +1,9 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -171,7 +177,7 @@ public class Main {
         return (x.pow(2)).mod(n);
     }
 
-    public BigInteger quadraticSieve(BigInteger n){
+    public BigInteger quadraticSieve(BigInteger n) throws IOException{
     	//Step 1
         BigInteger factor = testDivide(n);
         if(!factor.equals(BigInteger.valueOf(-1))){
@@ -193,6 +199,18 @@ public class Main {
         
         //Step 4
         BigInteger b = calcB(n);
+        //Step 5
+        BufferedReader br = new BufferedReader(new FileReader("primes.txt"));
+        BufferedWriter bw = new BufferedWriter(new FileWriter("baseprimes.txt"));
+        String line = br.readLine();
+        while(line != null){
+        	BigInteger temp = BigInteger.valueOf(Integer.parseInt(line));
+        	if(legendre(temp, n) == 1){
+        		bw.write(line);
+        	}
+        	line=br.readLine();
+        }
+        
         return b;
     }
 
@@ -213,6 +231,13 @@ public class Main {
         return BigInteger.valueOf(eToPower.round(new MathContext(0, RoundingMode.FLOOR)).intValue());
     }
     
-    
+    public int legendre(BigInteger a, BigInteger p){
+    	BigInteger symbol = modPow3(a,p.subtract(BigInteger.valueOf(1/2)),p);
+    	if(symbol.equals(BigInteger.ONE)){
+    		return 1;
+    	} else{
+    		return -1;
+    	}
+    }
 
 }
