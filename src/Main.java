@@ -172,12 +172,16 @@ public class Main {
     }
 
     public BigInteger quadraticSieve(BigInteger n){
+    	//Step 1
         BigInteger factor = testDivide(n);
         if(!factor.equals(BigInteger.valueOf(-1))){
             return factor;
         }
+        
+        //Step 2
         BigDecimal newN = BigDecimal.valueOf(n.floatValue());
         if(!millerRabin(n)){
+        	//Step 3
             for(int k = 2; k < 13; k++){ //TODO - oklart var begränsa k!
                 BigDecimal temp = (newN.pow(1 / k));
                 temp = temp.round(new MathContext(0, RoundingMode.FLOOR));
@@ -186,6 +190,8 @@ public class Main {
                 }
             }
         }
+        
+        //Step 4
         BigInteger b = calcB(n);
         return b;
     }
@@ -201,10 +207,9 @@ public class Main {
 
     public BigInteger calcB(BigInteger n){
         int c = 2;
-        BigInteger b = BigInteger.valueOf(c);
-        double sqrtTemp = (Math.log(n.doubleValue())*Math.log(Math.log(n.doubleValue())));
-        //BigInteger sqrt = BigInteger.valueOf((long) sqrtTemp);
-        BigDecimal eToPower = BigDecimal.valueOf(Math.pow(Math.E, sqrtTemp * (1 / 2)));
+        BigDecimal b = BigDecimal.valueOf(c);
+        double sqrtTemp = Math.sqrt((Math.log(n.doubleValue())*Math.log(Math.log(n.doubleValue()))));
+        BigDecimal eToPower = b.multiply(BigDecimal.valueOf(Math.pow(Math.E, sqrtTemp * (1 / 2))));
         return BigInteger.valueOf(eToPower.round(new MathContext(0, RoundingMode.FLOOR)).intValue());
     }
 
