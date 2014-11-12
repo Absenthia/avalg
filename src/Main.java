@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.File;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -19,11 +21,12 @@ public class Main {
     int iterations = 100;
 
     public static void main(String[] args) {
-        Main main = new Main();
-        main.run(110103, 120823);
+    	Primes primes = new Primes();
+    	primes.run();
+        primes.startmain(110103, 120823);
     }
 
-    public void run(int a, int b){
+    public void startmain(int a, int b){
         BigInteger bigge = new BigInteger("7910200059000000000000000000000001");
         int i = 1;
         while(!millerRabin(bigge)){
@@ -52,32 +55,28 @@ public class Main {
         }
     }
 
-    public boolean millerRabin(BigInteger toTest){
-        System.out.println("Starting miller rabin");
-        Random rng = new Random();
-        boolean isProbablyPrime = false;
-
-        BigInteger nMinusOne = toTest.subtract(BigInteger.ONE);
+    public boolean millerRabin(BigInteger n){
+    	BigInteger nMinusOne = n.subtract(BigInteger.ONE);
         int s = nMinusOne.getLowestSetBit(); //Finds powers of two
         BigInteger d = nMinusOne.divide(BigInteger.valueOf(2).pow(s));
-        outerloop: //label
+        witnessLoop: //label
         for(int i = 0; i < iterations; i++){
-            BigInteger a = randomizeBigInt(nMinusOne.subtract(BigInteger.valueOf(4)).add(BigInteger.valueOf(2)));
-            BigInteger x = modPow3(a, d, toTest);
-            if(x.equals(BigInteger.ONE) || x.equals(toTest.subtract(BigInteger.ONE))) {
+            BigInteger a = randomizeBigInt(nMinusOne.subtract(BigInteger.ONE));
+            BigInteger x = modPow3(a, d, n);
+            if(x.equals(BigInteger.ONE) || x.equals(n.subtract(BigInteger.ONE))) {
                 continue;
             }
             for (int j = 0; j < s; j++){
-                x = modPow3(x, BigInteger.valueOf(2), toTest);
+                x = modPow3(x, BigInteger.valueOf(2), n);
                 if(x.equals(1)){
-                    return isProbablyPrime;
+                    return false;
                 }else if (x.equals(nMinusOne)){
-                    continue outerloop;
+                    continue witnessLoop;
                 }
-                return isProbablyPrime;
             }
+            return false;
         }
-        System.out.println(toTest + " is probably prime");
+        System.out.println(n + " is probably prime");
         return true;
     }
 
@@ -88,21 +87,24 @@ public class Main {
 
         while(exponent.compareTo(BigInteger.valueOf(0)) == 1){
             if(exponent.mod(BigInteger.valueOf(2)).equals(BigInteger.valueOf(1))){
-                result = result.multiply(base).mod(mod);
+                result = result.multiply(base);
+                result = result.mod(mod);
             }
             exponent = exponent.shiftRight(1);
-            base = (base.multiply(base).mod(mod));
+            base = base.multiply(base);
+            base = base.mod(mod);
         }
         return result;
     }
 
-    public BigInteger randomizeBigInt (BigInteger upperBound){
+    public BigInteger randomizeBigInt (BigInteger ub){
+    	BigInteger upperBound = ub.subtract(BigInteger.valueOf(2));
         BigInteger result;
         Random rng = new Random();
         do{
             result = new BigInteger(upperBound.bitLength(), rng);
         } while (result.compareTo(upperBound) >= 0);
-        return result;
+        return result.add(BigInteger.valueOf(2));
     }
 
     public BigInteger pollardRho(BigInteger n){
