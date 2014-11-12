@@ -205,10 +205,12 @@ public class Main {
     }
     
     public int legendre(BigInteger a, BigInteger p){
-    	BigInteger symbol = modPow3(a,p.subtract(BigInteger.valueOf(1/2)),p);
+    	BigInteger symbol = modPow3(a,(p.subtract(BigInteger.ONE)).divide(BigInteger.valueOf(2)),p);
     	if(symbol.equals(BigInteger.ONE)){
     		return 1;
-    	} else{
+    	}else if(symbol.equals(BigInteger.ZERO)){
+    		return 0;
+    	} else {
     		return -1;
     	}
     }
