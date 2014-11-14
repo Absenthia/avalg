@@ -166,7 +166,7 @@ public class Main {
                 BigDecimal temp = (newN.pow(1 / k));
                 temp = temp.round(new MathContext(0, RoundingMode.FLOOR));
                 if(temp.pow(k).equals(newN)){
-                    return BigInteger.valueOf(temp.intValue());
+                    return BigInteger.valueOf(temp.intValue()); //TODO - vad göra här egentligen? se pdf...
                 }
             }
         }
