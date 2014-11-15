@@ -204,11 +204,11 @@ public class Main {
 
     public BigInteger calcB(BigInteger n){
         int c = 2;
-        BigDecimal b = BigDecimal.valueOf(c);
-        double sqrtTemp = Math.sqrt((Math.log(n.doubleValue())*Math.log(Math.log(n.doubleValue()))));
-        BigDecimal eToPower = b.multiply(BigDecimal.valueOf(Math.pow(Math.E, sqrtTemp * (1 / 2))));
-        System.out.println("sqrtTemp = "+ sqrtTemp + ", sqrtTemp^1/2 = " + sqrtTemp*(1/2) + ", eToPower = " + eToPower);
-        return BigInteger.valueOf(eToPower.round(new MathContext(0, RoundingMode.FLOOR)).intValue());
+        double exponent = 0.5*(Math.sqrt(Math.log(n.doubleValue())*Math.log(Math.log(n.doubleValue()))));
+        long tmp = Math.round(c*Math.pow(Math.E, exponent));
+        
+        BigInteger B = new BigInteger(""+tmp);
+        return B;
     }
     
     public int legendre(BigInteger a, BigInteger p){
