@@ -21,8 +21,11 @@ public class Main {
         main.run(110103, 120823);
     }
 
-    public void run(int a, int b){
-        BigInteger bigge = new BigInteger("7910200059000000000000000000000001");
+    public void run(int a, int c){
+        BigInteger bigge = new BigInteger("791020005900000000000000000000000000000000000000000000000001");
+        BigInteger b = calcB(bigge);
+        BigInteger sqrtB = b.pow(1/2);
+        System.out.println("b = " + b + ", sqrtB = " + sqrtB);
         int i = 1;
         while(!millerRabin(bigge)){
             System.out.println("bigge INNAN körning = " + bigge);
@@ -32,6 +35,8 @@ public class Main {
             System.out.println("bigge efter körning = " + bigge);
             i++;
         }
+        //BigInteger b = calcB(bigge);
+        
     }
 
     public int gcd(int a, int b){
@@ -202,6 +207,7 @@ public class Main {
         BigDecimal b = BigDecimal.valueOf(c);
         double sqrtTemp = Math.sqrt((Math.log(n.doubleValue())*Math.log(Math.log(n.doubleValue()))));
         BigDecimal eToPower = b.multiply(BigDecimal.valueOf(Math.pow(Math.E, sqrtTemp * (1 / 2))));
+        System.out.println("sqrtTemp = "+ sqrtTemp + ", sqrtTemp^1/2 = " + sqrtTemp*(1/2) + ", eToPower = " + eToPower);
         return BigInteger.valueOf(eToPower.round(new MathContext(0, RoundingMode.FLOOR)).intValue());
     }
     
