@@ -232,6 +232,10 @@ public class Main {
     		return result;
     	}
     	BigInteger q = pMinusOne.divide(BigInteger.valueOf(2).pow(s));
+    	//if p=2^t
+    	if(q.equals(BigInteger.ONE)){
+    		//do bruteforce?
+    	}
     	BufferedReader br = new BufferedReader(new FileReader("primes.txt"));
     	while(br.readLine() != null){
     		z = BigInteger.valueOf((Integer.parseInt(br.readLine())));
