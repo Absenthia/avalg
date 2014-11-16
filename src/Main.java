@@ -170,7 +170,7 @@ public class Main {
         if(!millerRabin(n)){
         	//Step 3
             for(int k = 2; k < 13; k++){ //TODO - oklart var begränsa k!
-                BigDecimal temp = (newN.pow(1 / k));
+                BigDecimal temp = (newN.pow(1 / k));//TODO - change pow to takeRoot!
                 temp = temp.round(new MathContext(0, RoundingMode.FLOOR));
                 if(temp.pow(k).equals(newN)){
                     return BigInteger.valueOf(temp.intValue()); //TODO - vad göra här egentligen? se pdf...
