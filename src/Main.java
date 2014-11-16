@@ -28,11 +28,11 @@ public class Main {
         System.out.println("b = " + b + ", sqrtB = " + sqrtB);
         int i = 1;
         while(!millerRabin(bigge)){
-            System.out.println("bigge INNAN körning = " + bigge);
+            System.out.println("bigge BEFORE running = " + bigge);
             BigInteger factor = pollardRhoNew(bigge);
             System.out.println("Factor no. "+ i + " = " + factor);
             bigge = bigge.divide(factor);
-            System.out.println("bigge efter körning = " + bigge);
+            System.out.println("bigge AFTER running = " + bigge);
             i++;
         }
         //BigInteger b = calcB(bigge);
@@ -77,8 +77,9 @@ public class Main {
                 }else if (x.equals(nMinusOne)){
                     continue outerloop;
                 }
-                return isProbablyPrime;
             }
+            //moved this from inner for-loop back to this
+            return isProbablyPrime;
         }
         System.out.println(toTest + " is probably prime");
         return true;
@@ -140,7 +141,7 @@ public class Main {
                 count += 1;
                 h = bigIntGcd((x.subtract(x_fixed).abs()), n);
                 if(count%10000 == 0){
-                    System.out.println("RÖÖÖÖV");
+                    System.out.println("A-S-S?");
                 }
             }
             if (!h.equals(BigInteger.ONE)){
@@ -184,7 +185,9 @@ public class Main {
         String line = br.readLine();
         while(line != null){
         	BigInteger temp = BigInteger.valueOf(Integer.parseInt(line));
+        	if(temp.compareTo(b) != -1) break;
         	if(legendre(temp, n) == 1){
+        		System.out.println("This is line: "+ line);
         		bw.write(line);
         	}
         	line=br.readLine();
