@@ -19,6 +19,7 @@ public class Main {
     int iterations = 100;
     Generator g;
     long endTime;
+    HashMap<String, Integer> temp;
 
     public static void main(String[] args) throws IOException {
     	Main main = new Main();       
@@ -39,7 +40,7 @@ public class Main {
         boolean allFound = false;
         boolean print = true;
         while(curr != null){
-        	HashMap<String, String> temp = new HashMap<String, String>(); 
+        	temp = new HashMap<String, Integer>(); 
         	long currentTime = System.currentTimeMillis();
         	endTime = currentTime+6000;
         	while(currentTime < endTime && !allFound){
@@ -70,7 +71,7 @@ public class Main {
     	System.out.println("After: "+pollardRhoNew(t).toString());
     }
     
-    public boolean calcFactorsPollardRho(BigInteger n, HashMap<String, String> temp) throws IOException{
+    public boolean calcFactorsPollardRho(BigInteger n, HashMap<String, Integer> temp) throws IOException{
     	//boolean allFound = false;
     	/*
     	if(!millerRabin(n)){
@@ -99,9 +100,15 @@ public class Main {
     		if(!firstFactor.equals(BigInteger.valueOf(-1))){
     			firstFactor = pollardRhoNew(n);
     		}
+    		
+    		String stringKey = firstFactor.toString();
+    		if(!temp.containsKey(stringKey)){
+    			temp.put(stringKey, 1);
+    		}else{
+    			temp.put(stringKey, temp.get(stringKey)+1);
+    		}
+    		
 			numDivisible = n.divide(firstFactor);
-    		temp.put(firstFactor.toString(), numDivisible.toString());
-
 			n = numDivisible;
 			isPrime = millerRabin(n);
     	}

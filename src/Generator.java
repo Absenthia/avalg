@@ -37,13 +37,13 @@ public class Generator {
 		pnrwr.flush();
 	}
 	
-	public void printResult(HashMap<String, String> res){
+	public void printResult(HashMap<String, Integer> res){
 		if(res == null){
 			reswr.println();
 		}else{
-			for(Entry<String, String> entry : res.entrySet()){
+			for(Entry<String, Integer> entry : res.entrySet()){
 				String key = entry.getKey();
-				String value = entry.getValue();
+				Integer value = entry.getValue();
 				reswr.print(key+" "+value+" ");
 			}
 		}
