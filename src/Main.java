@@ -51,7 +51,7 @@ public class Main {
         	if(print) g.printResult(temp);
         	String tmpstr = br.readLine();
         	if(tmpstr != null){
-        		curr = new BigInteger(br.readLine());
+        		curr = new BigInteger(tmpstr);
         	}else curr = null;
         	allFound = false;
         	print = true;
