@@ -38,6 +38,7 @@ public class Main {
         while(curr != null){
         	HashMap<String, String> temp = new HashMap<String, String>();
         	while(System.currentTimeMillis() < endTime){
+        		System.out.println("curr = " + curr);
         		temp = calcFactorsPollardRho(curr, temp);
         		if(System.currentTimeMillis() >= endTime){
         			temp = null;
@@ -58,7 +59,7 @@ public class Main {
     	System.out.println("After: "+pollardRhoNew(t).toString());
     }
     
-    public HashMap<String, String> calcFactorsPollardRho(BigInteger n, HashMap<String, String> temp){
+    public HashMap<String, String> calcFactorsPollardRho(BigInteger n, HashMap<String, String> temp) throws IOException{
     	if(!millerRabin(n)){
     		BigInteger firstFactor = testDivide(n, 100000);
     		BigInteger numberOfTimes = null;
@@ -232,8 +233,16 @@ public class Main {
         return b; //TODO - change to different return value
     }
 
-    public BigInteger testDivide(BigInteger n, Integer upperBound){
-        for(int p:primes){
+    public BigInteger testDivide(BigInteger n, Integer upperBound) throws IOException{
+    	BufferedReader br = new BufferedReader(new FileReader("primes.txt"));
+    	BigInteger temp = new BigInteger(br.readLine());
+    	int i = 0;
+    	while(temp != null && temp.compareTo(BigInteger.valueOf(upperBound)) < 1){
+    		primes[i] = temp.intValue();
+    		i++;
+    		temp = new BigInteger(br.readLine());
+    	}
+    	for(int p:primes){
         	while(p < upperBound){
         		if (n.mod(BigInteger.valueOf(p)).equals(BigInteger.ZERO)){
                 	return BigInteger.valueOf(p);
