@@ -47,6 +47,7 @@ public class Generator {
 				reswr.print(key+" "+value+" ");
 			}
 		}
+		reswr.println();
 		reswr.flush();
 	}
 }
