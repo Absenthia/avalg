@@ -41,10 +41,12 @@ public class Main {
         boolean print = true;
         while(curr != null){
         	HashMap<String, String> temp = new HashMap<String, String>(); 
-        	while(System.currentTimeMillis() < endTime && !allFound){
+        	double currentTime = System.currentTimeMillis();
+        	while(currentTime < endTime && !allFound){
         		System.out.println("curr = " + curr);
         		allFound = calcFactorsPollardRho(curr, temp);
-        		if(System.currentTimeMillis() >= endTime){
+        		currentTime = System.currentTimeMillis();
+        		if(currentTime >= endTime){
         			temp = null;
         			g.printResult(null);
         			print = false;
