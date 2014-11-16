@@ -72,6 +72,7 @@ public class Main {
     
     public boolean calcFactorsPollardRho(BigInteger n, HashMap<String, String> temp) throws IOException{
     	//boolean allFound = false;
+    	/*
     	if(!millerRabin(n)){
     		BigInteger firstFactor = testDivide(n, 100000);
     		BigInteger numberOfTimes = null;
@@ -89,7 +90,22 @@ public class Main {
 	    			return calcFactorsPollardRho(numberOfTimes, temp);
 	    		}
     		}
+    	}*/
+    	
+    	boolean isPrime = millerRabin(n);
+    	while(!isPrime){
+    		BigInteger firstFactor = testDivide(n, 100000);
+    		BigInteger numDivisible = null;
+    		if(!firstFactor.equals(BigInteger.valueOf(-1))){
+    			firstFactor = pollardRhoNew(n);
+    		}
+			numDivisible = n.divide(firstFactor);
+    		temp.put(firstFactor.toString(), numDivisible.toString());
+
+			n = numDivisible;
+			isPrime = millerRabin(n);
     	}
+    	
     	return true;
     }
     
