@@ -24,7 +24,7 @@ public class Main {
     public void run(int a, int c){
         BigInteger bigge = new BigInteger("791020005900000000000000000000000000000000000000000000000001");
         BigInteger b = calcB(bigge);
-        BigInteger sqrtB = b.pow(1/2);
+        BigInteger sqrtB = sqrt(b);
         System.out.println("b = " + b + ", sqrtB = " + sqrtB);
         int i = 1;
         while(!millerRabin(bigge)){
@@ -226,7 +226,7 @@ public class Main {
     }
     
     public BigInteger qOfX(BigInteger n, BigInteger x){
-    	return (((n.pow(1/2)).add(x)).pow(2)).subtract(n);
+    	return (((sqrt(n)).add(x)).pow(2)).subtract(n);
     }
     
     public BigInteger[] shanksTonelli(BigInteger x, BigInteger n, BigInteger p) throws NumberFormatException, IOException{
