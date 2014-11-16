@@ -44,11 +44,9 @@ public class Main {
         			temp = null;
         			g.printResult(temp);
         		}
-        		break;
         	}
         	g.printResult(temp);
         	curr = new BigInteger(br.readLine());
-        	
         }
         br.close();
         //BigInteger b = calcB(bigge);
