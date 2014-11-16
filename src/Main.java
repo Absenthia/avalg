@@ -44,6 +44,7 @@ public class Main {
         			temp = null;
         			g.printResult(temp);
         		}
+        		break;
         	}
         	g.printResult(temp);
         	curr = new BigInteger(br.readLine());
@@ -69,12 +70,13 @@ public class Main {
         		if(!millerRabin(numberOfTimes)){
         			return calcFactorsPollardRho(numberOfTimes, temp);
         		} 
-    		}
-    		BigInteger aFactor = pollardRhoNew(n);
-    		numberOfTimes = n.divide(aFactor);
-    		temp.put(aFactor.toString(), numberOfTimes.toString());
-    		if(!millerRabin(numberOfTimes)){
-    			return calcFactorsPollardRho(numberOfTimes, temp);
+    		} else{
+	    		BigInteger aFactor = pollardRhoNew(n);
+	    		numberOfTimes = n.divide(aFactor);
+	    		temp.put(aFactor.toString(), numberOfTimes.toString());
+	    		if(!millerRabin(numberOfTimes)){
+	    			return calcFactorsPollardRho(numberOfTimes, temp);
+	    		}
     		}
     	}
     	return temp;
