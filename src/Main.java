@@ -95,7 +95,6 @@ public class Main {
     	
     	boolean isPrime = millerRabin(n);
     	while(!isPrime){
-    		System.out.println("N IS NOW: "+n.toString());
     		BigInteger firstFactor = testDivide(n, 100000);
     		BigInteger numDivisible = null;
     		if(!firstFactor.equals(BigInteger.valueOf(-1))){
