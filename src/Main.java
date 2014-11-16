@@ -34,10 +34,10 @@ public class Main {
     	BufferedReader br = new BufferedReader(new FileReader(pNum + ".txt"));
     	BigInteger curr = new BigInteger(br.readLine());
         long startTime = System.currentTimeMillis();
-        long endTime = startTime+600000;
+        long endTime = startTime+6000;
         while(curr != null){
         	HashMap<String, String> temp = new HashMap<String, String>();
-        	while(System.currentTimeMillis() < endTime){
+        	while(System.currentTimeMillis() < endTime ){
         		System.out.println("curr = " + curr);
         		temp = calcFactorsPollardRho(curr, temp);
         		if(System.currentTimeMillis() >= endTime){
