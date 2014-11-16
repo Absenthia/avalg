@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -14,31 +15,45 @@ import java.util.Random;
 
 
 public class Main {
-	String pNum1 = "7910200059";
-	String pNum2 = "9106175632";
-    int[] primes;
+	int[] primes;
     int iterations = 100;
+    Generator g;
 
     public static void main(String[] args) throws IOException {
-        Main main = new Main();
-        Generator g = new Generator(new BigInteger("7910200059"), 0);
-        main.run();
+    	Main main = new Main();       
+    	BufferedReader b = new BufferedReader(new InputStreamReader(System.in));
+    	System.out.println("Gief personnummer");
+    	String pNum = b.readLine();
+    	
+        Generator g = new Generator(new BigInteger(pNum), 0);
+        main.run(pNum);
     }
 
-    public void run() throws IOException{
-    	BufferedReader br = new BufferedReader(new FileReader(pNum1 + ".txt"));
+    public void run(String pNum) throws IOException{
+    	BufferedReader br = new BufferedReader(new FileReader(pNum + ".txt"));
         BigInteger curr = new BigInteger(br.readLine());
         long startTime = System.currentTimeMillis();
         long endTime = startTime+600000;
         while(curr != null){
         	HashMap<String, String> temp = new HashMap<String, String>();
         	while(System.currentTimeMillis() < endTime){
-        		temp = calcFactorsPollardRho(curr, temp);	
+        		temp = calcFactorsPollardRho(curr, temp);
+        		if(System.currentTimeMillis() >= endTime){
+        			temp = null;
+        			g.printResult(temp);
+        		}
         	}
+        	g.printResult(temp);
         	curr = new BigInteger(br.readLine());
+        	
         }
         //BigInteger b = calcB(bigge);
         
+    }
+    
+    public void testPollardRho(BigInteger t){
+    	System.out.println("Init: "+t.toString());
+    	System.out.println("After: "+pollardRhoNew(t).toString());
     }
     
     public HashMap<String, String> calcFactorsPollardRho(BigInteger n, HashMap<String, String> temp){
@@ -48,7 +63,11 @@ public class Main {
     		if(firstFactor != BigInteger.valueOf(-1)){
     			numberOfTimes = n.divide(firstFactor);
         		temp.put(firstFactor.toString(), numberOfTimes.toString());
-        	}
+        		calcFactorsPollardRho(numberOfTimes, temp);
+    		}
+    		BigInteger aFactor = pollardRhoNew(n);
+    		numberOfTimes = n.divide(aFactor);
+    		temp.put(aFactor.toString(), numberOfTimes.toString());
     		calcFactorsPollardRho(numberOfTimes, temp);
     	}
     	return temp;
