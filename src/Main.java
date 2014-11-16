@@ -25,7 +25,8 @@ public class Main {
         BigInteger bigge = new BigInteger("791020005900000000000000000000000000000000000000000000000001");
         BigInteger b = calcB(bigge);
         BigInteger sqrtB = sqrt(b);
-        System.out.println("b = " + b + ", sqrtB = " + sqrtB);
+        BigDecimal test = takeRoot(5, BigDecimal.valueOf(20511149), BigDecimal.valueOf(0.001));
+        System.out.println("takeRoot = " + test);
         int i = 1;
         while(!millerRabin(bigge)){
             System.out.println("bigge BEFORE running = " + bigge);
@@ -284,5 +285,35 @@ public class Main {
             div = y;
         }
     }
+    
+    /*
+     * found at: http://uclue.com/?xq=1608
+     */
+    public static BigDecimal takeRoot(int root, BigDecimal n, BigDecimal maxError) {
+        int MAXITER = 5000;
 
+        // Specify a math context with 40 digits of precision.
+        MathContext mc = new MathContext(40);
+
+        // Specify the starting value in the search for the cube root.
+        BigDecimal x;
+        x=new BigDecimal("1",mc);
+
+        
+        BigDecimal prevX = null;
+       
+        BigDecimal rootBD = new BigDecimal(root,mc);
+        // Search for the cube root via the Newton-Raphson loop. Output each successive iteration's value.
+        for(int i=0; i < MAXITER; ++i) {
+            x = x.subtract(x.pow(root,mc)
+                   .subtract(n,mc)
+                   .divide(rootBD.multiply(x.pow(root-1,mc),mc),mc),mc);
+            if(prevX!=null && prevX.subtract(x).abs().compareTo(maxError) < 0)
+                break;
+            prevX = x;
+        }
+       
+        return x;
+    }
+    
 }
