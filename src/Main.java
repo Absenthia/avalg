@@ -18,6 +18,7 @@ public class Main {
 	int[] primes;
     int iterations = 100;
     Generator g;
+    long endTime;
 
     public static void main(String[] args) throws IOException {
     	Main main = new Main();       
@@ -35,13 +36,12 @@ public class Main {
         
     	BufferedReader br = new BufferedReader(new FileReader(pNum + ".txt"));
     	BigInteger curr = new BigInteger(br.readLine());
-        long startTime = System.currentTimeMillis();
-        long endTime = startTime+6000;
         boolean allFound = false;
         boolean print = true;
         while(curr != null){
         	HashMap<String, String> temp = new HashMap<String, String>(); 
-        	double currentTime = System.currentTimeMillis();
+        	long currentTime = System.currentTimeMillis();
+        	endTime = currentTime+6000;
         	while(currentTime < endTime && !allFound){
         		System.out.println("curr = " + curr);
         		allFound = calcFactorsPollardRho(curr, temp);
@@ -188,7 +188,9 @@ public class Main {
         BigInteger x_fixed = BigInteger.valueOf(2);
         int cycle_size = 2;
         BigInteger h = BigInteger.ONE;
-        while (h.equals(BigInteger.ONE)){
+        long startTime = System.currentTimeMillis();
+        long endTime = startTime+6000;
+        while (h.equals(BigInteger.ONE) && System.currentTimeMillis() < endTime){
             int count = 1;
             while (count <= cycle_size && h.equals(BigInteger.ONE)){
                 x = gOfX(x, n);
