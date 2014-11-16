@@ -8,25 +8,52 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.sql.Time;
+import java.util.HashMap;
 import java.util.Random;
 
 
 public class Main {
-
+	String pNum1 = "7910200059";
+	String pNum2 = "9106175632";
     int[] primes;
     int iterations = 100;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Main main = new Main();
+        Generator g = new Generator(new BigInteger("7910200059"), 0);
         main.run();
     }
 
-    public void run(){
-        
+    public void run() throws IOException{
+    	BufferedReader br = new BufferedReader(new FileReader(pNum1 + ".txt"));
+        BigInteger curr = new BigInteger(br.readLine());
+        long startTime = System.currentTimeMillis();
+        long endTime = startTime+600000;
+        while(curr != null){
+        	HashMap<String, BigInteger> temp = new HashMap<String, BigInteger>();
+        	while(System.currentTimeMillis() < endTime){
+        		temp = calcFactorsPollardRho(curr, temp);	
+        	}
+        	curr = new BigInteger(br.readLine());
+        }
         //BigInteger b = calcB(bigge);
         
     }
-
+    
+    public HashMap<String, BigInteger> calcFactorsPollardRho(BigInteger n, HashMap<String, BigInteger> temp){
+    	if(!millerRabin(n)){
+    		BigInteger firstFactor = testDivide(n, 100000);
+    		BigInteger numberOfTimes = null;
+    		if(firstFactor != BigInteger.valueOf(-1)){
+    			numberOfTimes = n.divide(firstFactor);
+        		temp.put(firstFactor.toString(), numberOfTimes);
+        	}
+    		calcFactorsPollardRho(numberOfTimes, temp);
+    	}
+    	return temp;
+    }
+    
     public int gcd(int a, int b){
         if(b == 0){
             return a;
@@ -147,7 +174,7 @@ public class Main {
 
     public BigInteger quadraticSieve(BigInteger n) throws IOException{
     	//Step 1
-        BigInteger factor = testDivide(n);
+        BigInteger factor = testDivide(n, 100000); //TODO - what upper bound do we want?
         if(!factor.equals(BigInteger.valueOf(-1))){
             return factor;
         }
@@ -184,11 +211,13 @@ public class Main {
         return b; //TODO - change to different return value
     }
 
-    public BigInteger testDivide(BigInteger n){
+    public BigInteger testDivide(BigInteger n, Integer upperBound){
         for(int p:primes){
-            if (n.mod(BigInteger.valueOf(p)).equals(BigInteger.ZERO)){
-                return BigInteger.valueOf(p);
-            }
+        	while(p < upperBound){
+        		if (n.mod(BigInteger.valueOf(p)).equals(BigInteger.ZERO)){
+                	return BigInteger.valueOf(p);
+            	}
+        	}
         }
         return BigInteger.valueOf(-1);
     }

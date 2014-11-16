@@ -12,7 +12,7 @@ public class Generator {
 	int j;
 	
 	public static void main(String[] args) throws IOException {
-		BigInteger pnr = new BigInteger("9106175632");
+		BigInteger pnr = new BigInteger("7910200059");
 	    Generator g = new Generator(pnr, 0);
 	    g.printerino();
 	}
