@@ -66,12 +66,16 @@ public class Main {
     		if(firstFactor != BigInteger.valueOf(-1)){
     			numberOfTimes = n.divide(firstFactor);
         		temp.put(firstFactor.toString(), numberOfTimes.toString());
-        		calcFactorsPollardRho(numberOfTimes, temp);
+        		if(!millerRabin(numberOfTimes)){
+        			return calcFactorsPollardRho(numberOfTimes, temp);
+        		} 
     		}
     		BigInteger aFactor = pollardRhoNew(n);
     		numberOfTimes = n.divide(aFactor);
     		temp.put(aFactor.toString(), numberOfTimes.toString());
-    		calcFactorsPollardRho(numberOfTimes, temp);
+    		if(!millerRabin(numberOfTimes)){
+    			return calcFactorsPollardRho(numberOfTimes, temp);
+    		}
     	}
     	return temp;
     }
@@ -235,13 +239,24 @@ public class Main {
 
     public BigInteger testDivide(BigInteger n, Integer upperBound) throws IOException{
     	BufferedReader br = new BufferedReader(new FileReader("primes.txt"));
-    	BigInteger temp = new BigInteger(br.readLine());
+    	BigInteger p = new BigInteger(br.readLine());
+    	for(int i = 0; i < upperBound; i++){
+    		if (n.mod(p).equals(BigInteger.ZERO)){
+            	return p;
+        	}
+    		p = new BigInteger(br.readLine());
+    	}
+    	return BigInteger.valueOf(-1);
+    }
+    	/*
     	int i = 0;
     	while(temp != null && temp.compareTo(BigInteger.valueOf(upperBound)) < 1){
+    		System.out.println("temp = " + temp);
     		primes[i] = temp.intValue();
     		i++;
     		temp = new BigInteger(br.readLine());
     	}
+    	br.close();
     	for(int p:primes){
         	while(p < upperBound){
         		if (n.mod(BigInteger.valueOf(p)).equals(BigInteger.ZERO)){
@@ -250,7 +265,7 @@ public class Main {
         	}
         }
         return BigInteger.valueOf(-1);
-    }
+    }*/
 
     public BigInteger calcB(BigInteger n){
         int c = 2;
