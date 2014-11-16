@@ -31,7 +31,7 @@ public class Main {
         long startTime = System.currentTimeMillis();
         long endTime = startTime+600000;
         while(curr != null){
-        	HashMap<String, BigInteger> temp = new HashMap<String, BigInteger>();
+        	HashMap<String, String> temp = new HashMap<String, String>();
         	while(System.currentTimeMillis() < endTime){
         		temp = calcFactorsPollardRho(curr, temp);	
         	}
@@ -41,13 +41,13 @@ public class Main {
         
     }
     
-    public HashMap<String, BigInteger> calcFactorsPollardRho(BigInteger n, HashMap<String, BigInteger> temp){
+    public HashMap<String, String> calcFactorsPollardRho(BigInteger n, HashMap<String, String> temp){
     	if(!millerRabin(n)){
     		BigInteger firstFactor = testDivide(n, 100000);
     		BigInteger numberOfTimes = null;
     		if(firstFactor != BigInteger.valueOf(-1)){
     			numberOfTimes = n.divide(firstFactor);
-        		temp.put(firstFactor.toString(), numberOfTimes);
+        		temp.put(firstFactor.toString(), numberOfTimes.toString());
         	}
     		calcFactorsPollardRho(numberOfTimes, temp);
     	}
