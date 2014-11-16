@@ -24,13 +24,15 @@ public class Main {
     	BufferedReader b = new BufferedReader(new InputStreamReader(System.in));
     	System.out.println("Gief personnummer");
     	String pNum = b.readLine();
-        Generator g = new Generator(new BigInteger(pNum), 0);
-        g.printerino();
+        
         //System.out.println("pNum+.txt: "+ pNum + ".txt");
         main.run(pNum);
     }
 
     public void run(String pNum) throws IOException{
+    	g = new Generator(new BigInteger(pNum), 0);
+        g.printerino();
+        
     	BufferedReader br = new BufferedReader(new FileReader(pNum + ".txt"));
     	BigInteger curr = new BigInteger(br.readLine());
         long startTime = System.currentTimeMillis();
