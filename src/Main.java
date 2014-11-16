@@ -35,11 +35,12 @@ public class Main {
     	BigInteger curr = new BigInteger(br.readLine());
         long startTime = System.currentTimeMillis();
         long endTime = startTime+6000;
+        boolean allFound = false;
         while(curr != null){
         	HashMap<String, String> temp = new HashMap<String, String>();
-        	while(System.currentTimeMillis() < endTime ){
+        	while(System.currentTimeMillis() < endTime || !allFound){
         		System.out.println("curr = " + curr);
-        		temp = calcFactorsPollardRho(curr, temp);
+        		allFound = calcFactorsPollardRho(curr, temp);
         		if(System.currentTimeMillis() >= endTime){
         			temp = null;
         			g.printResult(temp);
@@ -47,6 +48,7 @@ public class Main {
         	}
         	g.printResult(temp);
         	curr = new BigInteger(br.readLine());
+        	allFound = false;
         }
         br.close();
         //BigInteger b = calcB(bigge);
@@ -58,7 +60,8 @@ public class Main {
     	System.out.println("After: "+pollardRhoNew(t).toString());
     }
     
-    public HashMap<String, String> calcFactorsPollardRho(BigInteger n, HashMap<String, String> temp) throws IOException{
+    public boolean calcFactorsPollardRho(BigInteger n, HashMap<String, String> temp) throws IOException{
+    	//boolean allFound = false;
     	if(!millerRabin(n)){
     		BigInteger firstFactor = testDivide(n, 100000);
     		BigInteger numberOfTimes = null;
@@ -68,7 +71,7 @@ public class Main {
         		if(!millerRabin(numberOfTimes)){
         			return calcFactorsPollardRho(numberOfTimes, temp);
         		} 
-    		} else{
+    		} else {
 	    		BigInteger aFactor = pollardRhoNew(n);
 	    		numberOfTimes = n.divide(aFactor);
 	    		temp.put(aFactor.toString(), numberOfTimes.toString());
@@ -77,7 +80,7 @@ public class Main {
 	    		}
     		}
     	}
-    	return temp;
+    	return true;
     }
     
     public int gcd(int a, int b){
