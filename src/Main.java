@@ -24,14 +24,15 @@ public class Main {
     	BufferedReader b = new BufferedReader(new InputStreamReader(System.in));
     	System.out.println("Gief personnummer");
     	String pNum = b.readLine();
-    	
         Generator g = new Generator(new BigInteger(pNum), 0);
+        g.printerino();
+        //System.out.println("pNum+.txt: "+ pNum + ".txt");
         main.run(pNum);
     }
 
     public void run(String pNum) throws IOException{
     	BufferedReader br = new BufferedReader(new FileReader(pNum + ".txt"));
-        BigInteger curr = new BigInteger(br.readLine());
+    	BigInteger curr = new BigInteger(br.readLine());
         long startTime = System.currentTimeMillis();
         long endTime = startTime+600000;
         while(curr != null){
@@ -47,6 +48,7 @@ public class Main {
         	curr = new BigInteger(br.readLine());
         	
         }
+        br.close();
         //BigInteger b = calcB(bigge);
         
     }
