@@ -18,24 +18,11 @@ public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
-        main.run(110103, 120823);
+        main.run();
     }
 
-    public void run(int a, int c){
-        BigInteger bigge = new BigInteger("791020005900000000000000000000000000000000000000000000000001");
-        BigInteger b = calcB(bigge);
-        BigInteger sqrtB = sqrt(b);
-        BigDecimal test = takeRoot(5, BigDecimal.valueOf(20511149), BigDecimal.valueOf(0.001));
-        System.out.println("takeRoot = " + test);
-        int i = 1;
-        while(!millerRabin(bigge)){
-            System.out.println("bigge BEFORE running = " + bigge);
-            BigInteger factor = pollardRhoNew(bigge);
-            System.out.println("Factor no. "+ i + " = " + factor);
-            bigge = bigge.divide(factor);
-            System.out.println("bigge AFTER running = " + bigge);
-            i++;
-        }
+    public void run(){
+        
         //BigInteger b = calcB(bigge);
         
     }
@@ -315,5 +302,6 @@ public class Main {
        
         return x;
     }
+    
     
 }
