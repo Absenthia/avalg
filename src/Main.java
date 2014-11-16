@@ -36,19 +36,25 @@ public class Main {
         long startTime = System.currentTimeMillis();
         long endTime = startTime+6000;
         boolean allFound = false;
+        boolean print = true;
         while(curr != null){
-        	HashMap<String, String> temp = new HashMap<String, String>();
-        	while(System.currentTimeMillis() < endTime || !allFound){
+        	HashMap<String, String> temp = new HashMap<String, String>(); 
+        	while(System.currentTimeMillis() < endTime && !allFound){
         		System.out.println("curr = " + curr);
         		allFound = calcFactorsPollardRho(curr, temp);
         		if(System.currentTimeMillis() >= endTime){
         			temp = null;
-        			g.printResult(temp);
+        			g.printResult(null);
+        			print = false;
         		}
         	}
-        	g.printResult(temp);
-        	curr = new BigInteger(br.readLine());
+        	if(print) g.printResult(temp);
+        	String tmpstr = br.readLine();
+        	if(tmpstr != null){
+        		curr = new BigInteger(br.readLine());
+        	}else curr = null;
         	allFound = false;
+        	print = true;
         }
         br.close();
         //BigInteger b = calcB(bigge);
