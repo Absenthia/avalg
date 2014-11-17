@@ -18,7 +18,6 @@ public class Main {
 	int[] primes;
     int iterations = 100;
     Generator g;
-    long endTime;
     HashMap<String, Integer> temp;
 
     public static void main(String[] args) throws IOException {
@@ -39,9 +38,7 @@ public class Main {
     	BigInteger curr = new BigInteger(br.readLine());
         int keepLoop = 0;
         while(curr != null){
-        	temp = new HashMap<String, Integer>(); 
-        	long currentTime = System.currentTimeMillis();
-        	endTime = currentTime+6000;
+        	temp = new HashMap<String, Integer>();
         	while(keepLoop == 0){
         		System.out.println("curr = " + curr);
         		keepLoop = calcFactorsPollardRho(curr);
@@ -74,6 +71,7 @@ public class Main {
     		System.out.println("firstFactor (after testDivide) = " + firstFactor);
     		BigInteger numDivisible = null;
     		if(firstFactor.equals(BigInteger.valueOf(-1))){
+    			System.out.println("STARTING POLLARD RHO");
     			firstFactor = pollardRhoNew(n);
     			System.out.println("Inside pollardRho-if. firstFactor = " + firstFactor);
     			if(firstFactor.equals(BigInteger.valueOf(-1))){
@@ -197,14 +195,16 @@ public class Main {
         BigInteger h = BigInteger.ONE;
         long startTime = System.currentTimeMillis();
         long endTime = startTime+10000;
+        
         while (h.equals(BigInteger.ONE) && System.currentTimeMillis() < endTime){
+        	System.out.println("FIRST WHILE IN POLLARD RHO");
             int count = 1;
             while (count <= cycle_size && h.equals(BigInteger.ONE)){
                 x = gOfX(x, n);
                 count += 1;
                 h = bigIntGcd((x.subtract(x_fixed).abs()), n);
                 if(count%100000 == 0){
-                    System.out.println("A-S-S?");
+                    System.out.println("Calculating in PollardRho");
                 }
             }
             if (!h.equals(BigInteger.ONE)){
