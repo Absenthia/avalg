@@ -31,8 +31,6 @@ public class Generator {
 		this.j = j;
 		pnrwr = new PrintWriter(new FileWriter(pnr+"_"+x+"-"+y+".txt"));
 		reswr = new PrintWriter(new FileWriter(pnr+"_"+x+"-"+y+"_res.txt"));
-		reswr.println(pnr+" "+j);
-		reswr.flush();
 		printerino(x, y);
 	}
 	

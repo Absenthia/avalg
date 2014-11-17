@@ -33,7 +33,7 @@ public class Brent extends Thread{
 	    	BufferedReader br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+stop+ ".txt"));
 	    	BigInteger curr = new BigInteger(br.readLine());
 	        int keepLoop = 0;
-	        while(curr != null){
+	        for(int i = start; i < stop; i++){
 	        	temp = new HashMap<String, Integer>();
 	        	while(keepLoop == 0){
 	        		if(DEBUG)System.out.println("curr = " + curr);
