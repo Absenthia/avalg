@@ -22,6 +22,7 @@ public class Brent extends Thread{
     String pNum;
     int start, stop, runTime;
     final int J = 20;
+    int counter;
     
 	public Brent(String pNum, int start, int stop, int runTime){
 		this.pNum = pNum;
@@ -57,6 +58,7 @@ public class Brent extends Thread{
 		
 	    	BufferedReader br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+stop+ ".txt"));
 	        int keepLoop = 0;
+	        counter = 0;
 	        for(int i = 0; i < 10; i++){
 		    	BigInteger curr = new BigInteger(br.readLine());
 	        	if(numbers[i] == null){
@@ -71,6 +73,7 @@ public class Brent extends Thread{
 		    		}else{
 		    			System.out.println("Factorized " + curr.toString());
 		    			numbers[i] = g.printResult(temp);
+		    			counter +=1;
 		    		}
 	        	}
 	        	keepLoop = 0;
@@ -86,7 +89,7 @@ public class Brent extends Thread{
 	        	}
 	        }
 	        reswr.flush();
-	        
+	        System.out.println("Factorized " + counter + "composite numbers");
 	        br.close();      
     	} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -105,7 +108,7 @@ public class Brent extends Thread{
     	BigInteger firstFactor = n;
     	while(!isPrime){
     		if(DEBUG)System.out.println("n, beginning of loop: " + n.toString());
-    		firstFactor = testDivide(n, 100000);
+    		firstFactor = testDivide(n, 500000);
     		if(DEBUG)System.out.println("firstFactor (after testDivide) = " + firstFactor);
     		BigInteger numDivisible = null;
     		if(firstFactor.equals(BigInteger.valueOf(-1))){
