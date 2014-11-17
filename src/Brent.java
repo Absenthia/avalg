@@ -54,7 +54,6 @@ public class Brent extends Thread{
     		}
     		
 			g = new Generator(new BigInteger(pNum), J, start, stop);
-
 		
 	    	BufferedReader br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+stop+ ".txt"));
 	    	BigInteger curr = new BigInteger(br.readLine());
@@ -73,17 +72,16 @@ public class Brent extends Thread{
 		    			System.out.println("Factorized " + curr.toString());
 		    			numbers[i] = g.printResult(temp);
 		    		}
-		    		curr = new BigInteger(br.readLine());
-		        	keepLoop = 0;
 	        	}
+	        	curr = new BigInteger(br.readLine());
+	        	keepLoop = 0;
 	        }
 
 			PrintWriter reswr = new PrintWriter(new FileWriter(resPath));
-			reswr.println(pNum+" "+J);
-			
-	        for(String s : numbers){
-	        	if(s != null){
-		        	reswr.println(s);	
+	        for(int i=0; i<numbers.length; i++){
+	        	String currStr = numbers[i];
+	        	if(currStr != null){
+		        	reswr.println(currStr);	
 	        	}else{ 
 	        		reswr.println();
 	        	}
