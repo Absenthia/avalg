@@ -214,7 +214,7 @@ public class Main {
         }
         System.out.println("END OF WHILE POLLARD RHO");
         System.out.println("H is now: "+h.toString());
-        if(System.currentTimeMillis() < endTime){
+        if(System.currentTimeMillis() > endTime){
         	return BigInteger.valueOf(-1);
         }
         return h;
