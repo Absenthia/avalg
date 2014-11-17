@@ -13,11 +13,11 @@ public class Generator {
 	BigInteger pnr;
 	int j, x, y;
 	
-	public static void main(String[] args) throws IOException {
+	/*public static void main(String[] args) throws IOException {
 		BigInteger pnr = new BigInteger("7910200059");
 	    Generator g = new Generator(pnr, 0);
 	    g.printerino();
-	}
+	}*/
 	
 	public Generator(BigInteger pnr, int j) throws IOException{
 		this.pnr = pnr;
