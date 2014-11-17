@@ -43,13 +43,13 @@ public class Brent extends Thread{
     				if(tmp != null){
     					numbers[i] = currentRes;
     				}else{
-    					numbers[i] = "";
+    					numbers[i] = null;
     				}
     			}
     			resbr.close();
     		}else{
     			for(int i=0; i<10; i++){
-    				numbers[i] = "";
+    				numbers[i] = null;
     			}
     		}
     		
@@ -60,7 +60,7 @@ public class Brent extends Thread{
 	    	BigInteger curr = new BigInteger(br.readLine());
 	        int keepLoop = 0;
 	        for(int i = 0; i < 10; i++){
-	        	if(numbers[i].equals("")){
+	        	if(numbers[i] == null){
 		        	temp = new HashMap<String, Integer>();
 		        	while(keepLoop == 0){
 		        		if(DEBUG)System.out.println("curr = " + curr);
@@ -82,7 +82,11 @@ public class Brent extends Thread{
 			reswr.println(pNum+" "+J);
 			
 	        for(String s : numbers){
-	        	reswr.println(s);
+	        	if(s != null){
+		        	reswr.println(s);	
+	        	}else{ 
+	        		reswr.println();
+	        	}
 	        }
 	        reswr.flush();
 	        

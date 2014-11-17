@@ -65,7 +65,7 @@ public class Generator {
 				keys.add(new BigInteger(key));
 			}
 			Collections.sort(keys);
-		}else return "";
+		}else return null;
 		
 		for(BigInteger tmp : keys){
 			String key = tmp.toString();
