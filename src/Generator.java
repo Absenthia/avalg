@@ -38,9 +38,7 @@ public class Generator {
 	}
 	
 	public void printResult(HashMap<String, Integer> res){
-		if(res == null){
-			reswr.println();
-		}else{
+		if(res != null){
 			for(Entry<String, Integer> entry : res.entrySet()){
 				String key = entry.getKey();
 				Integer value = entry.getValue();
