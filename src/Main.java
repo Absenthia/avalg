@@ -20,7 +20,7 @@ public class Main {
     Generator g;
     HashMap<String, Integer> temp;
     final boolean DEBUG = false;
-    int runTime = 10;
+    int runTime = 60;
 
     public static void main(String[] args) throws IOException {
     	Main main = new Main();       
@@ -35,10 +35,35 @@ public class Main {
         main.run(pNum, startInterval, stopInterval);
     }
 
+    public void run(String pNum) throws IOException{
+    	g = new Generator(new BigInteger(pNum), 0);
+        
+    	BufferedReader br = new BufferedReader(new FileReader(pNum + ".txt"));
+    	BigInteger curr = new BigInteger(br.readLine());
+        int keepLoop = 0;
+        while(curr != null){
+        	temp = new HashMap<String, Integer>();
+        	while(keepLoop == 0){
+        		if(DEBUG)System.out.println("curr = " + curr);
+        		keepLoop = calcFactorsPollardRho(curr);
+        	}
+        	if(keepLoop == -1){
+    			System.out.println("Failed to factorize " + curr.toString());
+        		g.printResult(null);
+    		}else{
+    			System.out.println("Factorized " + curr.toString());
+    			g.printResult(temp);
+    		}
+    		curr = new BigInteger(br.readLine());
+        	keepLoop = 0;
+        }
+        br.close();        
+    }
+    
     public void run(String pNum, int start, int stop) throws IOException{
     	g = new Generator(new BigInteger(pNum), 0, start, stop);
         
-    	BufferedReader br = new BufferedReader(new FileReader(pNum + ".txt"));
+    	BufferedReader br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+stop+ ".txt"));
     	BigInteger curr = new BigInteger(br.readLine());
         int keepLoop = 0;
         while(curr != null){
@@ -441,7 +466,7 @@ public class Main {
                         if g>1:
                                 break
          
-        return g*/
+        return g
     
     public BigInteger brent(BigInteger n){
     	if(n.mod(BigInteger.valueOf(2)).equals(BigInteger.ZERO)){
@@ -449,6 +474,6 @@ public class Main {
     	}
     	BigInteger y,c,m;
     	y = randomizeBigInt(n.subtract(BigInteger.ONE));
-    }
+    }*/
     
 }
