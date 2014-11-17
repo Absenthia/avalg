@@ -57,8 +57,9 @@ public class Brent extends Thread{
 	        curr = new BigInteger(br.readLine());
 	        
 	        BufferedReader resbr = new BufferedReader(new FileReader(pNum+"_"+start+"-"+stop+ "_res.txt"));
+	        String curr_res = resbr.readLine();
+	        
 	        for(int i = start-1; i < stop; i++){
-		        String curr_res = resbr.readLine();
 		        if(curr_res == null){
 			        temp = new HashMap<String, Integer>();
 			        while(keepLoop == 0){
@@ -72,6 +73,7 @@ public class Brent extends Thread{
 			        keepLoop = 0;
 		        }
 		        curr = new BigInteger(br.readLine());
+		        curr_res = resbr.readLine();
 	        }
 	        
 	        br.close();      
