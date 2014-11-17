@@ -16,9 +16,10 @@ public class Brent extends Thread{
     Generator g;
     HashMap<String, Integer> temp;
     final boolean DEBUG = false;
-    int runTime = 10;
+    int runTime = 30;
     String pNum;
     int start, stop;
+    final int J = 0;
     
 	public Brent(String pNum, int start, int stop){
 		this.pNum = pNum;
@@ -28,7 +29,7 @@ public class Brent extends Thread{
 	
     public void run(){
     	try {
-			g = new Generator(new BigInteger(pNum), 0, start, stop);
+			g = new Generator(new BigInteger(pNum), J, start, stop);
 		
 	    	BufferedReader br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+stop+ ".txt"));
 	    	BigInteger curr = new BigInteger(br.readLine());

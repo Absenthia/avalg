@@ -2,6 +2,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -58,13 +60,22 @@ public class Generator {
 	}
 	
 	public void printResult(HashMap<String, Integer> res){
+		ArrayList<BigInteger> keys = new ArrayList<BigInteger>();
+		
 		if(res != null){
 			for(Entry<String, Integer> entry : res.entrySet()){
 				String key = entry.getKey();
-				Integer value = entry.getValue();
-				reswr.print(key+" "+value+" ");
+				keys.add(new BigInteger(key));
 			}
+			Collections.sort(keys);
 		}
+		
+		for(BigInteger tmp : keys){
+			String key = tmp.toString();
+			int value = res.get(key);
+			reswr.print(key+" "+value+" ");
+		}
+		
 		reswr.println();
 		reswr.flush();
 	}
