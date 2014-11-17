@@ -37,15 +37,15 @@ public class Main {
         
     	BufferedReader br = new BufferedReader(new FileReader(pNum + ".txt"));
     	BigInteger curr = new BigInteger(br.readLine());
-        boolean allFound = false;
+        boolean keepLoop = false;
         boolean print = true;
         while(curr != null){
         	temp = new HashMap<String, Integer>(); 
         	long currentTime = System.currentTimeMillis();
         	endTime = currentTime+6000;
-        	while(currentTime < endTime && !allFound){
+        	while(currentTime < endTime && !keepLoop){
         		System.out.println("curr = " + curr);
-        		allFound = calcFactorsPollardRho(curr, temp);
+        		keepLoop = calcFactorsPollardRho(curr, temp);
         		currentTime = System.currentTimeMillis();
         		if(currentTime >= endTime){
         			temp = null;
@@ -58,7 +58,7 @@ public class Main {
         	if(tmpstr != null){
         		curr = new BigInteger(tmpstr);
         	}else curr = null;
-        	allFound = false;
+        	keepLoop = false;
         	print = true;
         }
         br.close();
