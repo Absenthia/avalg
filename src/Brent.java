@@ -41,9 +41,11 @@ public class Brent extends Thread{
     			BufferedReader resbr = new BufferedReader(new FileReader(resPath));
     			for(int i=0; i<10; i++){
     				String currentRes = resbr.readLine();
-    				if(currentRes != null){
+    				System.out.println("currentRes = " + currentRes);
+    				if(!currentRes.equals("")){
     					numbers[i] = currentRes;
     				}else{
+    					System.out.println("NU ÄR VI INNE HÄR!!!");
     					numbers[i] = null;
     				}
     			}
@@ -108,7 +110,7 @@ public class Brent extends Thread{
     	BigInteger firstFactor = n;
     	while(!isPrime){
     		if(DEBUG)System.out.println("n, beginning of loop: " + n.toString());
-    		firstFactor = testDivide(n, 500000);
+    		firstFactor = testDivide(n, 1000000);
     		if(DEBUG)System.out.println("firstFactor (after testDivide) = " + firstFactor);
     		BigInteger numDivisible = null;
     		if(firstFactor.equals(BigInteger.valueOf(-1))){
