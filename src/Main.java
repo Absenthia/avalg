@@ -95,7 +95,7 @@ public class Main {
     	
     	boolean isPrime = millerRabin(n);
     	while(!isPrime){
-    		System.out.println("n i början av loopen: " + n.toString());
+    		System.out.println("n, beginning of loop: " + n.toString());
     		BigInteger firstFactor = testDivide(n, 100000);
     		System.out.println("firstFactor (after testDivide) = " + firstFactor);
     		BigInteger numDivisible = null;
@@ -119,7 +119,7 @@ public class Main {
     		
 			numDivisible = n.divide(firstFactor);
 			n = numDivisible;
-			System.out.println("nya n, för nästa vända: " + n.toString());
+			System.out.println("new n, for next loop: " + n.toString());
 			isPrime = millerRabin(n);
     	}
     	
