@@ -59,8 +59,8 @@ public class Main {
     		stop += length;
     	}
     	//Finish all threads in queue
-    	executor.shutdown();
-    	executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
+    	executor2.shutdown();
+    	executor2.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
     	
     	m.rebuildFile(pNum,startval,stopval);
     }
