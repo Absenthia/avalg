@@ -44,7 +44,7 @@ public class Main {
         	endTime = currentTime+6000;
         	while(keepLoop == 0){
         		System.out.println("curr = " + curr);
-        		keepLoop = calcFactorsPollardRho(curr, temp);
+        		keepLoop = calcFactorsPollardRho(curr);
         		//currentTime = System.currentTimeMillis();
         	}
         	if(keepLoop == -1){
@@ -65,27 +65,7 @@ public class Main {
     	System.out.println("After: "+pollardRhoNew(t).toString());
     }
     
-    public int calcFactorsPollardRho(BigInteger n, HashMap<String, Integer> temp) throws IOException{
-    	//boolean allFound = false;
-    	/*
-    	if(!millerRabin(n)){
-    		BigInteger firstFactor = testDivide(n, 100000);
-    		BigInteger numberOfTimes = null;
-    		if(firstFactor != BigInteger.valueOf(-1)){
-    			numberOfTimes = n.divide(firstFactor);
-        		temp.put(firstFactor.toString(), numberOfTimes.toString());
-        		if(!millerRabin(numberOfTimes)){
-        			return calcFactorsPollardRho(numberOfTimes, temp);
-        		} 
-    		} else {
-	    		BigInteger aFactor = pollardRhoNew(n);
-	    		numberOfTimes = n.divide(aFactor);
-	    		temp.put(aFactor.toString(), numberOfTimes.toString());
-	    		if(!millerRabin(numberOfTimes)){
-	    			return calcFactorsPollardRho(numberOfTimes, temp);
-	    		}
-    		}
-    	}*/
+    public int calcFactorsPollardRho(BigInteger n) throws IOException{
     	
     	boolean isPrime = millerRabin(n);
     	while(!isPrime){
