@@ -15,11 +15,12 @@ public class Brent extends Thread{
     int iterations = 100;
     Generator g;
     HashMap<String, Integer> temp;
+    final int FIRST_RUN = 10;
+    final int SECOND_RUN = 20;
     final boolean DEBUG = false;
-    int runTime = 30;
     String pNum;
     int start, stop;
-    final int J = 0;
+    final int J = 20;
     
 	public Brent(String pNum, int start, int stop){
 		this.pNum = pNum;
@@ -34,11 +35,11 @@ public class Brent extends Thread{
 	    	BufferedReader br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+stop+ ".txt"));
 	    	BigInteger curr = new BigInteger(br.readLine());
 	        int keepLoop = 0;
-	        for(int i = start; i < stop; i++){
+	        for(int i = start-1; i < stop; i++){
 	        	temp = new HashMap<String, Integer>();
 	        	while(keepLoop == 0){
 	        		if(DEBUG)System.out.println("curr = " + curr);
-	        		keepLoop = calcFactorsPollardRho(curr);
+	        		keepLoop = calcFactorsPollardRho(curr, FIRST_RUN);
 	        	}
 	        	if(keepLoop == -1){
 	    			System.out.println("Failed to factorize " + curr.toString());
@@ -50,6 +51,29 @@ public class Brent extends Thread{
 	    		curr = new BigInteger(br.readLine());
 	        	keepLoop = 0;
 	        }
+	        br.close(); 
+	        
+	        br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+stop+ ".txt"));
+	        curr = new BigInteger(br.readLine());
+	        
+	        BufferedReader resbr = new BufferedReader(new FileReader(pNum+"_"+start+"-"+stop+ "_res.txt"));
+	        for(int i = start-1; i < stop; i++){
+		        String curr_res = resbr.readLine();
+		        if(curr_res == null){
+			        temp = new HashMap<String, Integer>();
+			        while(keepLoop == 0){
+			        	keepLoop = calcFactorsPollardRho(curr, SECOND_RUN);
+			        }
+			        if(keepLoop == -1){
+			        	g.printResult(null);
+			        }else{
+			        	g.printResult(temp);
+			        }
+			        keepLoop = 0;
+		        }
+		        curr = new BigInteger(br.readLine());
+	        }
+	        
 	        br.close();      
     	} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -57,12 +81,12 @@ public class Brent extends Thread{
 		}
     }
     
-    public void testPollardRho(BigInteger t){
+    public void testPollardRho(BigInteger t, int runTime){
     	System.out.println("Init: "+t.toString());
-    	System.out.println("After: "+pollardRhoNew(t).toString());
+    	System.out.println("After: "+pollardRhoNew(t, runTime).toString());
     }
     
-    public int calcFactorsPollardRho(BigInteger n) throws IOException{
+    public int calcFactorsPollardRho(BigInteger n, int runTime) throws IOException{
     	
     	boolean isPrime = millerRabin(n);
     	BigInteger firstFactor = n;
@@ -73,7 +97,7 @@ public class Brent extends Thread{
     		BigInteger numDivisible = null;
     		if(firstFactor.equals(BigInteger.valueOf(-1))){
     			if(DEBUG)System.out.println("STARTING POLLARD RHO");
-    			firstFactor = brent(n);
+    			firstFactor = brent(n, runTime);
     			if(DEBUG)System.out.println("Inside pollardRho-if. firstFactor = " + firstFactor);
     			if(firstFactor.equals(BigInteger.valueOf(-1))){
     				return -1; //Pollard Rho fails to find factor, and times out
@@ -173,7 +197,7 @@ public class Brent extends Thread{
         return result;
     }
 
-    public BigInteger pollardRho(BigInteger n){
+    public BigInteger pollardRho(BigInteger n, int runTime){
         BigInteger x = BigInteger.valueOf(2);
         BigInteger y = BigInteger.valueOf(2);
         BigInteger d = BigInteger.valueOf(1);
@@ -196,7 +220,7 @@ public class Brent extends Thread{
     }
 
 
-    public BigInteger pollardRhoNew(BigInteger n){
+    public BigInteger pollardRhoNew(BigInteger n, int runTime){
         BigInteger x = BigInteger.valueOf(2);
         BigInteger x_fixed = BigInteger.valueOf(2);
         int cycle_size = 2;
@@ -395,7 +419,7 @@ public class Brent extends Thread{
         return x;
     }
     
-    public BigInteger brent(BigInteger n){
+    public BigInteger brent(BigInteger n, int runTime){
     	if(n.mod(BigInteger.valueOf(2)).equals(BigInteger.ZERO)){
     		return BigInteger.valueOf(2);
     	}
