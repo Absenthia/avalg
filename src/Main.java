@@ -28,8 +28,8 @@ public class Main {
     	int stopval = 5;
     	int length = 5;
     	int intervals = 100/length;
-    	int runSec = 30;
-    	int runMin = 1;
+    	int runMin = 30;
+    	int runSec = runMin*60;
     	
     	ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
     	int start = startval;
