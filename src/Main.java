@@ -83,7 +83,7 @@ public class Main {
 			System.out.println("new n, for next loop: " + n.toString());
 			isPrime = millerRabin(n);
     	}
-    	addPrime(firstFactor);
+    	addPrime(n);
     	return 1;
     }
     
