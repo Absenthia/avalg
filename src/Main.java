@@ -25,8 +25,7 @@ public class Main {
     	BufferedReader b = new BufferedReader(new InputStreamReader(System.in));
     	System.out.println("Gief personnummer");
     	String pNum = b.readLine();
-        
-        //System.out.println("pNum+.txt: "+ pNum + ".txt");
+
         main.run(pNum);
     }
 
@@ -42,7 +41,6 @@ public class Main {
         	while(keepLoop == 0){
         		System.out.println("curr = " + curr);
         		keepLoop = calcFactorsPollardRho(curr);
-        		//currentTime = System.currentTimeMillis();
         	}
         	if(keepLoop == -1){
     			g.printResult(null);
@@ -52,9 +50,7 @@ public class Main {
     		curr = new BigInteger(br.readLine());
         	keepLoop = 0;
         }
-        br.close();
-        //BigInteger b = calcB(bigge);
-        
+        br.close();        
     }
     
     public void testPollardRho(BigInteger t){
@@ -65,9 +61,10 @@ public class Main {
     public int calcFactorsPollardRho(BigInteger n) throws IOException{
     	
     	boolean isPrime = millerRabin(n);
+    	BigInteger firstFactor = n;
     	while(!isPrime){
     		System.out.println("n, beginning of loop: " + n.toString());
-    		BigInteger firstFactor = testDivide(n, 100000);
+    		firstFactor = testDivide(n, 100000);
     		System.out.println("firstFactor (after testDivide) = " + firstFactor);
     		BigInteger numDivisible = null;
     		if(firstFactor.equals(BigInteger.valueOf(-1))){
@@ -79,23 +76,27 @@ public class Main {
     			}
     		}
     		
-    		String stringKey = firstFactor.toString();
-    		//System.out.println("stringKey: " + stringKey);
-    		if(!temp.containsKey(stringKey)){
-    			//System.out.println("inte temp.containsKey(stringKey)");
-    			temp.put(stringKey, 1);
-    		}else{
-    			//System.out.println("temp.containsKey(stringKey)");
-    			temp.put(stringKey, temp.get(stringKey)+1);
-    		}
+    		addPrime(firstFactor);
     		
 			numDivisible = n.divide(firstFactor);
 			n = numDivisible;
 			System.out.println("new n, for next loop: " + n.toString());
 			isPrime = millerRabin(n);
     	}
-    	
+    	addPrime(firstFactor);
     	return 1;
+    }
+    
+    public void addPrime(BigInteger factor){
+    	String stringKey = factor.toString();
+    	System.out.println("stringKey: " + stringKey);
+		if(!temp.containsKey(stringKey)){
+			System.out.println("inte temp.containsKey(stringKey)");
+			temp.put(stringKey, 1);
+		}else{
+			System.out.println("temp.containsKey(stringKey)");
+			temp.put(stringKey, temp.get(stringKey)+1);
+		}
     }
     
     public int gcd(int a, int b){
@@ -194,7 +195,7 @@ public class Main {
         int cycle_size = 2;
         BigInteger h = BigInteger.ONE;
         long startTime = System.currentTimeMillis();
-        long endTime = startTime+2000;
+        long endTime = startTime+10000;
         
         while (h.equals(BigInteger.ONE) && System.currentTimeMillis() < endTime){
             int count = 1;
