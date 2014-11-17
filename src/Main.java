@@ -95,25 +95,35 @@ public class Main {
     	
     	boolean isPrime = millerRabin(n);
     	while(!isPrime){
+    		System.out.println("n i början av loopen: " + n.toString());
     		BigInteger firstFactor = testDivide(n, 100000);
+    		System.out.println("firstFactor (after testDivide) = " + firstFactor);
     		BigInteger numDivisible = null;
-    		if(!firstFactor.equals(BigInteger.valueOf(-1))){
+    		if(firstFactor.equals(BigInteger.valueOf(-1))){
     			firstFactor = pollardRhoNew(n);
+    			System.out.println("Inside pollardRho-if. firstFactor = " + firstFactor);
+    			if(firstFactor.equals(BigInteger.valueOf(-1))){
+    				return true;
+    			}
     		}
     		
     		String stringKey = firstFactor.toString();
+    		System.out.println("stringKey: " + stringKey);
     		if(!temp.containsKey(stringKey)){
+    			System.out.println("inte temp.containsKey(stringKey)");
     			temp.put(stringKey, 1);
     		}else{
+    			System.out.println("temp.containsKey(stringKey)");
     			temp.put(stringKey, temp.get(stringKey)+1);
     		}
     		
 			numDivisible = n.divide(firstFactor);
 			n = numDivisible;
+			System.out.println("nya n, för nästa vända: " + n.toString());
 			isPrime = millerRabin(n);
     	}
     	
-    	return true;
+    	return false;
     }
     
     public int gcd(int a, int b){
@@ -212,14 +222,14 @@ public class Main {
         int cycle_size = 2;
         BigInteger h = BigInteger.ONE;
         long startTime = System.currentTimeMillis();
-        long endTime = startTime+6000;
+        long endTime = startTime+10000;
         while (h.equals(BigInteger.ONE) && System.currentTimeMillis() < endTime){
             int count = 1;
             while (count <= cycle_size && h.equals(BigInteger.ONE)){
                 x = gOfX(x, n);
                 count += 1;
                 h = bigIntGcd((x.subtract(x_fixed).abs()), n);
-                if(count%10000 == 0){
+                if(count%100000 == 0){
                     System.out.println("A-S-S?");
                 }
             }
@@ -228,6 +238,9 @@ public class Main {
             }
             cycle_size = cycle_size * 2;
             x_fixed = x;
+        }
+        if(System.currentTimeMillis() < endTime){
+        	return BigInteger.valueOf(-1);
         }
         return h;
     }
