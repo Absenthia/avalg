@@ -15,8 +15,8 @@ public class Brent extends Thread{
     int iterations = 100;
     Generator g;
     HashMap<String, Integer> temp;
-    final int FIRST_RUN = 10;
-    final int SECOND_RUN = 20;
+    final int FIRST_RUN = 1;
+    final int SECOND_RUN = 2;
     final boolean DEBUG = false;
     String pNum;
     int start, stop;
@@ -35,7 +35,7 @@ public class Brent extends Thread{
 	    	BufferedReader br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+stop+ ".txt"));
 	    	BigInteger curr = new BigInteger(br.readLine());
 	        int keepLoop = 0;
-	        for(int i = start-1; i < stop; i++){
+	        for(int i = start; i < stop; i++){
 	        	temp = new HashMap<String, Integer>();
 	        	while(keepLoop == 0){
 	        		if(DEBUG)System.out.println("curr = " + curr);
@@ -50,30 +50,6 @@ public class Brent extends Thread{
 	    		}
 	    		curr = new BigInteger(br.readLine());
 	        	keepLoop = 0;
-	        }
-	        br.close(); 
-	        
-	        br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+stop+ ".txt"));
-	        curr = new BigInteger(br.readLine());
-	        
-	        BufferedReader resbr = new BufferedReader(new FileReader(pNum+"_"+start+"-"+stop+ "_res.txt"));
-	        String curr_res = resbr.readLine();
-	        
-	        for(int i = start-1; i < stop; i++){
-		        if(curr_res == null){
-			        temp = new HashMap<String, Integer>();
-			        while(keepLoop == 0){
-			        	keepLoop = calcFactorsPollardRho(curr, SECOND_RUN);
-			        }
-			        if(keepLoop == -1){
-			        	g.printResult(null);
-			        }else{
-			        	g.printResult(temp);
-			        }
-			        keepLoop = 0;
-		        }
-		        curr = new BigInteger(br.readLine());
-		        curr_res = resbr.readLine();
 	        }
 	        
 	        br.close();      
@@ -436,7 +412,7 @@ public class Brent extends Thread{
         x = BigInteger.ONE;
         ys = BigInteger.ONE;
         long startTime = System.currentTimeMillis();
-        long endTime = startTime+(runTime*1000);
+        long endTime = startTime+(runTime*60*1000);
         while(g.equals(BigInteger.ONE)){
         	x = y;
         	for(int i = 0; i < r.intValue(); i++){
