@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -17,62 +18,73 @@ public class Brent extends Thread{
     int iterations = 100;
     Generator g;
     HashMap<String, Integer> temp;
-    final int FIRST_RUN = 1;
-    final int SECOND_RUN = 2;
     final boolean DEBUG = false;
     String pNum;
-    int start, stop;
+    int start, stop, runTime;
     final int J = 20;
     
-	public Brent(String pNum, int start, int stop){
+	public Brent(String pNum, int start, int stop, int runTime){
 		this.pNum = pNum;
 		this.start = start;
 		this.stop = stop;
+		this.runTime = runTime;
 	}
 	
     public void run(){
     	try {
+
+    		String[] numbers = new String[10];
     		String resPath = pNum+"_"+start+"-"+stop+ "_res.txt";
-    		ArrayList<String> numbers = new ArrayList<String>();
     		File tmp = new File(resPath);
     		if(tmp.isFile()){
     			BufferedReader resbr = new BufferedReader(new FileReader(resPath));
     			for(int i=0; i<10; i++){
     				String currentRes = resbr.readLine();
     				if(tmp != null){
-    					numbers.add(currentRes);
+    					numbers[i] = currentRes;
     				}else{
-    					numbers.add("");
+    					numbers[i] = "";
     				}
     			}
     			resbr.close();
     		}else{
     			for(int i=0; i<10; i++){
-    				numbers.add("");
+    				numbers[i] = "";
     			}
     		}
     		
 			g = new Generator(new BigInteger(pNum), J, start, stop);
+
 		
 	    	BufferedReader br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+stop+ ".txt"));
 	    	BigInteger curr = new BigInteger(br.readLine());
 	        int keepLoop = 0;
-	        for(int i = start; i < stop; i++){
-	        	temp = new HashMap<String, Integer>();
-	        	while(keepLoop == 0){
-	        		if(DEBUG)System.out.println("curr = " + curr);
-	        		keepLoop = calcFactorsPollardRho(curr, FIRST_RUN);
+	        for(int i = 0; i < 10; i++){
+	        	if(numbers[i].equals("")){
+		        	temp = new HashMap<String, Integer>();
+		        	while(keepLoop == 0){
+		        		if(DEBUG)System.out.println("curr = " + curr);
+		        		keepLoop = calcFactorsPollardRho(curr, runTime);
+		        	}
+		        	if(keepLoop == -1){
+		    			System.out.println("Failed to factorize " + curr.toString());
+		        		numbers[i] = g.printResult(null);
+		    		}else{
+		    			System.out.println("Factorized " + curr.toString());
+		    			numbers[i] = g.printResult(temp);
+		    		}
+		    		curr = new BigInteger(br.readLine());
+		        	keepLoop = 0;
 	        	}
-	        	if(keepLoop == -1){
-	    			System.out.println("Failed to factorize " + curr.toString());
-	        		g.printResult(null);
-	    		}else{
-	    			System.out.println("Factorized " + curr.toString());
-	    			g.printResult(temp);
-	    		}
-	    		curr = new BigInteger(br.readLine());
-	        	keepLoop = 0;
 	        }
+
+			PrintWriter reswr = new PrintWriter(new FileWriter(resPath));
+			reswr.println(pNum+" "+J);
+			
+	        for(String s : numbers){
+	        	reswr.println(s);
+	        }
+	        reswr.flush();
 	        
 	        br.close();      
     	} catch (IOException e) {
@@ -434,7 +446,7 @@ public class Brent extends Thread{
         x = BigInteger.ONE;
         ys = BigInteger.ONE;
         long startTime = System.currentTimeMillis();
-        long endTime = startTime+(runTime*60*1000);
+        long endTime = startTime+(runTime*1000);
         while(g.equals(BigInteger.ONE)){
         	x = y;
         	for(int i = 0; i < r.intValue(); i++){

@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 
 
 public class Generator {
-	PrintWriter pnrwr, reswr;
+	PrintWriter pnrwr;
 	BigInteger pnr;
 	int j, x, y;
 	
@@ -23,16 +23,12 @@ public class Generator {
 		this.pnr = pnr;
 		this.j = j;
 		pnrwr = new PrintWriter(new FileWriter(pnr+".txt"));
-		reswr = new PrintWriter(new FileWriter(pnr+"_res.txt"));
-		reswr.println(pnr+" "+j);
-		reswr.flush();
 	}
 	
 	public Generator(BigInteger pnr, int j, int x, int y) throws IOException{
 		this.pnr = pnr;
 		this.j = j;
 		pnrwr = new PrintWriter(new FileWriter(pnr+"_"+x+"-"+y+".txt"));
-		reswr = new PrintWriter(new FileWriter(pnr+"_"+x+"-"+y+"_res.txt"));
 		printerino(x, y);
 	}
 	
@@ -59,8 +55,9 @@ public class Generator {
 		pnrwr.flush();
 	}
 	
-	public void printResult(HashMap<String, Integer> res){
+	public String printResult(HashMap<String, Integer> res){
 		ArrayList<BigInteger> keys = new ArrayList<BigInteger>();
+		StringBuilder sb = new StringBuilder();
 		
 		if(res != null){
 			for(Entry<String, Integer> entry : res.entrySet()){
@@ -68,15 +65,14 @@ public class Generator {
 				keys.add(new BigInteger(key));
 			}
 			Collections.sort(keys);
-		}
+		}else return "";
 		
 		for(BigInteger tmp : keys){
 			String key = tmp.toString();
 			int value = res.get(key);
-			reswr.print(key+" "+value+" ");
+			sb.append(key+" "+value+" ");
 		}
 		
-		reswr.println();
-		reswr.flush();
+		return sb.toString();
 	}
 }
