@@ -194,10 +194,9 @@ public class Main {
         int cycle_size = 2;
         BigInteger h = BigInteger.ONE;
         long startTime = System.currentTimeMillis();
-        long endTime = startTime+10000;
+        long endTime = startTime+2000;
         
         while (h.equals(BigInteger.ONE) && System.currentTimeMillis() < endTime){
-        	System.out.println("FIRST WHILE IN POLLARD RHO");
             int count = 1;
             while (count <= cycle_size && h.equals(BigInteger.ONE)){
                 x = gOfX(x, n);
@@ -213,6 +212,8 @@ public class Main {
             cycle_size = cycle_size * 2;
             x_fixed = x;
         }
+        System.out.println("END OF WHILE POLLARD RHO");
+        System.out.println("H is now: "+h.toString());
         if(System.currentTimeMillis() < endTime){
         	return BigInteger.valueOf(-1);
         }
