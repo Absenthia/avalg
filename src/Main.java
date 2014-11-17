@@ -32,11 +32,11 @@ public class Main {
     	System.out.println("Gief slut intervall");
     	int stopInterval = Integer.parseInt(b.readLine());
 
-        main.run(pNum);
+        main.run(pNum, startInterval, stopInterval);
     }
 
-    public void run(String pNum) throws IOException{
-    	g = new Generator(new BigInteger(pNum), 0, startInterval, stopInterval);
+    public void run(String pNum, int start, int stop) throws IOException{
+    	g = new Generator(new BigInteger(pNum), 0, start, stop);
         
     	BufferedReader br = new BufferedReader(new FileReader(pNum + ".txt"));
     	BigInteger curr = new BigInteger(br.readLine());
