@@ -18,10 +18,11 @@ public class Main {
 
     	Main m = new Main();
     	
-    	BufferedReader b = new BufferedReader(new InputStreamReader(System.in));
-    	System.out.println("Gief personnummer");
-    	String pNum = b.readLine();
+    	/*BufferedReader b = new BufferedReader(new InputStreamReader(System.in));
+    	System.out.println("Gief personnummer");*/
     	
+    	//RUN CHD PNR
+    	String pNum = "7910200059";
     	
     	int startval = 1;
     	int stopval = 5;
@@ -30,30 +31,30 @@ public class Main {
     	int runSec = 30;
     	int runMin = 1;
     	
-    	/*
-    	ArrayList<Brent> tasks = new ArrayList<Brent>();
-    	
-    	int start = startval;
-    	int stop = stopval;
-    	for(int i=0; i<length; i++){
-	    	Brent brentThread = new Brent(pNum, start, stop, 1);       
-	        tasks.add(brentThread);
-	        start += length;
-	        stop += length;
-    	}
-    	for(Brent tmp : tasks){
-    		tmp.start();
-    	}
-    	for(Brent tmp : tasks){
-    		tmp.join();
-    	}*/
-    	
     	ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
     	int start = startval;
     	int stop = stopval;
     	for(int i=0; i<intervals; i++){
-    		Runnable worker = new Brent(pNum, start, stop, runSec);
+    		Brent worker = new Brent(pNum, start, stop, runSec);
     		executor.execute(worker);
+    		start += length;
+    		stop += length;
+    	}
+    	//Finish all threads in queue
+    	executor.shutdown();
+    	executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
+    	
+    	m.rebuildFile(pNum,startval,stopval);
+    	
+    	//RUN SEB PNR
+    	pNum = "9106175632";
+    	
+    	ExecutorService executor2 = Executors.newFixedThreadPool(NUM_THREADS);
+    	start = startval;
+    	stop = stopval;
+    	for(int i=0; i<intervals; i++){
+    		Brent worker = new Brent(pNum, start, stop, runSec);
+    		executor2.execute(worker);
     		start += length;
     		stop += length;
     	}
