@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,6 +8,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -30,6 +32,26 @@ public class Brent extends Thread{
 	
     public void run(){
     	try {
+    		String resPath = pNum+"_"+start+"-"+stop+ "_res.txt";
+    		ArrayList<String> numbers = new ArrayList<String>();
+    		File tmp = new File(resPath);
+    		if(tmp.isFile()){
+    			BufferedReader resbr = new BufferedReader(new FileReader(resPath));
+    			for(int i=0; i<10; i++){
+    				String currentRes = resbr.readLine();
+    				if(tmp != null){
+    					numbers.add(currentRes);
+    				}else{
+    					numbers.add("");
+    				}
+    			}
+    			resbr.close();
+    		}else{
+    			for(int i=0; i<10; i++){
+    				numbers.add("");
+    			}
+    		}
+    		
 			g = new Generator(new BigInteger(pNum), J, start, stop);
 		
 	    	BufferedReader br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+stop+ ".txt"));
