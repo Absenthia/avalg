@@ -23,7 +23,7 @@ public class Main {
     	ArrayList<Brent> threads = new ArrayList<Brent>();
     	
     	for(int i=0; i<10; i++){
-	    	Brent brentThread = new Brent(pNum, start, stop, 5);       
+	    	Brent brentThread = new Brent(pNum, start, stop, 10);       
 	        threads.add(brentThread);
 	        start += 10;
 	        stop += 10;

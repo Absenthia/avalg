@@ -56,9 +56,9 @@ public class Brent extends Thread{
 			g = new Generator(new BigInteger(pNum), J, start, stop);
 		
 	    	BufferedReader br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+stop+ ".txt"));
-	    	BigInteger curr = new BigInteger(br.readLine());
 	        int keepLoop = 0;
 	        for(int i = 0; i < 10; i++){
+		    	BigInteger curr = new BigInteger(br.readLine());
 	        	if(numbers[i] == null){
 		        	temp = new HashMap<String, Integer>();
 		        	while(keepLoop == 0){
@@ -73,7 +73,6 @@ public class Brent extends Thread{
 		    			numbers[i] = g.printResult(temp);
 		    		}
 	        	}
-	        	curr = new BigInteger(br.readLine());
 	        	keepLoop = 0;
 	        }
 
