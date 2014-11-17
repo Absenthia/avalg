@@ -37,13 +37,13 @@ public class Main {
         
     	BufferedReader br = new BufferedReader(new FileReader(pNum + ".txt"));
     	BigInteger curr = new BigInteger(br.readLine());
-        boolean keepLoop = false;
+        int keepLoop = 0;
         boolean print = true;
         while(curr != null){
         	temp = new HashMap<String, Integer>(); 
         	long currentTime = System.currentTimeMillis();
         	endTime = currentTime+6000;
-        	while(currentTime < endTime && !keepLoop){
+        	while(currentTime < endTime && keepLoop == 0){
         		System.out.println("curr = " + curr);
         		keepLoop = calcFactorsPollardRho(curr, temp);
         		currentTime = System.currentTimeMillis();
@@ -58,7 +58,7 @@ public class Main {
         	if(tmpstr != null){
         		curr = new BigInteger(tmpstr);
         	}else curr = null;
-        	keepLoop = false;
+        	keepLoop = 0;
         	print = true;
         }
         br.close();
@@ -71,7 +71,7 @@ public class Main {
     	System.out.println("After: "+pollardRhoNew(t).toString());
     }
     
-    public boolean calcFactorsPollardRho(BigInteger n, HashMap<String, Integer> temp) throws IOException{
+    public int calcFactorsPollardRho(BigInteger n, HashMap<String, Integer> temp) throws IOException{
     	//boolean allFound = false;
     	/*
     	if(!millerRabin(n)){
@@ -103,7 +103,7 @@ public class Main {
     			firstFactor = pollardRhoNew(n);
     			System.out.println("Inside pollardRho-if. firstFactor = " + firstFactor);
     			if(firstFactor.equals(BigInteger.valueOf(-1))){
-    				return true;
+    				return -1; //Pollard Rho fails to find factor, and times out
     			}
     		}
     		
@@ -123,7 +123,7 @@ public class Main {
 			isPrime = millerRabin(n);
     	}
     	
-    	return true;
+    	return 1;
     }
     
     public int gcd(int a, int b){
