@@ -20,19 +20,23 @@ public class Main {
     Generator g;
     HashMap<String, Integer> temp;
     final boolean DEBUG = false;
+    int runTime = 10;
 
     public static void main(String[] args) throws IOException {
     	Main main = new Main();       
     	BufferedReader b = new BufferedReader(new InputStreamReader(System.in));
     	System.out.println("Gief personnummer");
     	String pNum = b.readLine();
+    	System.out.println("Gief start intervall");
+    	int startInterval = Integer.parseInt(b.readLine());
+    	System.out.println("Gief slut intervall");
+    	int stopInterval = Integer.parseInt(b.readLine());
 
         main.run(pNum);
     }
 
     public void run(String pNum) throws IOException{
-    	g = new Generator(new BigInteger(pNum), 0);
-        g.printerino();
+    	g = new Generator(new BigInteger(pNum), 0, startInterval, stopInterval);
         
     	BufferedReader br = new BufferedReader(new FileReader(pNum + ".txt"));
     	BigInteger curr = new BigInteger(br.readLine());
@@ -44,8 +48,10 @@ public class Main {
         		keepLoop = calcFactorsPollardRho(curr);
         	}
         	if(keepLoop == -1){
-    			g.printResult(null);
+    			System.out.println("Failed to factorize " + curr.toString());
+        		g.printResult(null);
     		}else{
+    			System.out.println("Factorized " + curr.toString());
     			g.printResult(temp);
     		}
     		curr = new BigInteger(br.readLine());
@@ -174,7 +180,10 @@ public class Main {
         BigInteger x = BigInteger.valueOf(2);
         BigInteger y = BigInteger.valueOf(2);
         BigInteger d = BigInteger.valueOf(1);
-        while(d.equals(BigInteger.ONE)){
+        long startTime = System.currentTimeMillis();
+        long endTime = startTime+(runTime*1000);
+   
+        while(d.equals(BigInteger.ONE) && System.currentTimeMillis() < endTime){
         	if(DEBUG)System.out.println("Inside while loop pollardRho");
             x = ((x.pow(2)).add(BigInteger.ONE)).mod(n);
             y = (((((y.pow(2)).add(BigInteger.ONE)).mod(n)).pow(2)).add(BigInteger.ONE)).mod(n);
@@ -182,7 +191,7 @@ public class Main {
             d = bigIntGcd(temp, n);
             if(DEBUG)System.out.println("x = " + x + ", y = " + y + ", d = " + d);
         }
-        if(d.equals(n)){
+        if(d.equals(n) || System.currentTimeMillis() > endTime){
             return BigInteger.valueOf(-1);
         } else {
             return d;
@@ -196,7 +205,7 @@ public class Main {
         int cycle_size = 2;
         BigInteger h = BigInteger.ONE;
         long startTime = System.currentTimeMillis();
-        long endTime = startTime+(120*1000);
+        long endTime = startTime+(runTime*1000);
         
         while (h.equals(BigInteger.ONE) && System.currentTimeMillis() < endTime){
             int count = 1;
@@ -214,8 +223,10 @@ public class Main {
             cycle_size = cycle_size * 2;
             x_fixed = x;
         }
-        System.out.println("END OF WHILE POLLARD RHO");
-        System.out.println("H is now: "+h.toString());
+        if(DEBUG){
+        	System.out.println("END OF WHILE POLLARD RHO");
+        	System.out.println("H is now: "+h.toString());
+        }
         if(System.currentTimeMillis() > endTime){
         	return BigInteger.valueOf(-1);
         }
@@ -405,5 +416,39 @@ public class Main {
         return x;
     }
     
+    /*def brent(N):
+        if N%2==0:
+                return 2
+        y,c,m = random.randint(1, N-1),random.randint(1, N-1),random.randint(1, N-1)
+        g,r,q = 1,1,1
+        while g==1:             
+                x = y
+                for i in range(r):
+                        y = ((y*y)%N+c)%N
+                k = 0
+                while (k<r and g==1):
+                        ys = y
+                        for i in range(min(m,r-k)):
+                                y = ((y*y)%N+c)%N
+                                q = q*(abs(x-y))%N
+                        g = gcd(q,N)
+                        k = k + m
+                r = r*2
+        if g==N:
+                while True:
+                        ys = ((ys*ys)%N+c)%N
+                        g = gcd(abs(x-ys),N)
+                        if g>1:
+                                break
+         
+        return g*/
+    
+    public BigInteger brent(BigInteger n){
+    	if(n.mod(BigInteger.valueOf(2)).equals(BigInteger.ZERO)){
+    		return BigInteger.valueOf(2);
+    	}
+    	BigInteger y,c,m;
+    	y = randomizeBigInt(n.subtract(BigInteger.ONE));
+    }
     
 }
