@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Main {
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
     	BufferedReader b = new BufferedReader(new InputStreamReader(System.in));
     	System.out.println("Gief personnummer");
     	String pNum = b.readLine();
@@ -23,6 +23,12 @@ public class Main {
 	        threads.add(brentThread);
 	        start += 10;
 	        stop += 10;
+    	}
+    	for(Brent tmp : threads){
+    		tmp.start();
+    	}
+    	for(Brent tmp : threads){
+    		tmp.join();
     	}
     }
 }
