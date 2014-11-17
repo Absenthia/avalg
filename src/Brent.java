@@ -14,13 +14,13 @@ import java.util.HashMap;
 import java.util.Random;
 
 
-public class Brent extends Thread{
+public class Brent implements Runnable{
     int iterations = 100;
     Generator g;
     HashMap<String, Integer> temp;
     final boolean DEBUG = false;
     String pNum;
-    int start, stop, runTime;
+    int start, stop, runTime, length;
     final int J = 20;
     int counter;
     
@@ -29,29 +29,30 @@ public class Brent extends Thread{
 		this.start = start;
 		this.stop = stop;
 		this.runTime = runTime;
+		length = stop - start + 1;
 	}
 	
     public void run(){
     	try {
 
-    		String[] numbers = new String[10];
+    		String[] numbers = new String[length];
     		String resPath = pNum+"_"+start+"-"+stop+ "_res.txt";
     		File tmp = new File(resPath);
     		if(tmp.isFile()){
     			BufferedReader resbr = new BufferedReader(new FileReader(resPath));
-    			for(int i=0; i<10; i++){
+    			for(int i=0; i<length; i++){
     				String currentRes = resbr.readLine();
-    				System.out.println("currentRes = " + currentRes);
+    				//System.out.println("currentRes = " + currentRes);
     				if(!currentRes.equals("")){
     					numbers[i] = currentRes;
     				}else{
-    					System.out.println("NU ÄR VI INNE HÄR!!!");
+    					//System.out.println("NU ÄR VI INNE HÄR!!!");
     					numbers[i] = null;
     				}
     			}
     			resbr.close();
     		}else{
-    			for(int i=0; i<10; i++){
+    			for(int i=0; i<length; i++){
     				numbers[i] = null;
     			}
     		}
@@ -61,7 +62,7 @@ public class Brent extends Thread{
 	    	BufferedReader br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+stop+ ".txt"));
 	        int keepLoop = 0;
 	        counter = 0;
-	        for(int i = 0; i < 10; i++){
+	        for(int i = 0; i < length; i++){
 		    	BigInteger curr = new BigInteger(br.readLine());
 	        	if(numbers[i] == null){
 		        	temp = new HashMap<String, Integer>();
@@ -110,7 +111,7 @@ public class Brent extends Thread{
     	BigInteger firstFactor = n;
     	while(!isPrime){
     		if(DEBUG)System.out.println("n, beginning of loop: " + n.toString());
-    		firstFactor = testDivide(n, 1000000);
+    		firstFactor = testDivide(n, 700000);
     		if(DEBUG)System.out.println("firstFactor (after testDivide) = " + firstFactor);
     		BigInteger numDivisible = null;
     		if(firstFactor.equals(BigInteger.valueOf(-1))){
