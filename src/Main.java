@@ -19,6 +19,7 @@ public class Main {
     int iterations = 100;
     Generator g;
     HashMap<String, Integer> temp;
+    final boolean DEBUG = false;
 
     public static void main(String[] args) throws IOException {
     	Main main = new Main();       
@@ -39,7 +40,7 @@ public class Main {
         while(curr != null){
         	temp = new HashMap<String, Integer>();
         	while(keepLoop == 0){
-        		System.out.println("curr = " + curr);
+        		if(DEBUG)System.out.println("curr = " + curr);
         		keepLoop = calcFactorsPollardRho(curr);
         	}
         	if(keepLoop == -1){
@@ -63,14 +64,14 @@ public class Main {
     	boolean isPrime = millerRabin(n);
     	BigInteger firstFactor = n;
     	while(!isPrime){
-    		System.out.println("n, beginning of loop: " + n.toString());
+    		if(DEBUG)System.out.println("n, beginning of loop: " + n.toString());
     		firstFactor = testDivide(n, 100000);
-    		System.out.println("firstFactor (after testDivide) = " + firstFactor);
+    		if(DEBUG)System.out.println("firstFactor (after testDivide) = " + firstFactor);
     		BigInteger numDivisible = null;
     		if(firstFactor.equals(BigInteger.valueOf(-1))){
-    			System.out.println("STARTING POLLARD RHO");
+    			if(DEBUG)System.out.println("STARTING POLLARD RHO");
     			firstFactor = pollardRhoNew(n);
-    			System.out.println("Inside pollardRho-if. firstFactor = " + firstFactor);
+    			if(DEBUG)System.out.println("Inside pollardRho-if. firstFactor = " + firstFactor);
     			if(firstFactor.equals(BigInteger.valueOf(-1))){
     				return -1; //Pollard Rho fails to find factor, and times out
     			}
@@ -80,7 +81,7 @@ public class Main {
     		
 			numDivisible = n.divide(firstFactor);
 			n = numDivisible;
-			System.out.println("new n, for next loop: " + n.toString());
+			if(DEBUG)System.out.println("new n, for next loop: " + n.toString());
 			isPrime = millerRabin(n);
     	}
     	addPrime(n);
@@ -89,12 +90,12 @@ public class Main {
     
     public void addPrime(BigInteger factor){
     	String stringKey = factor.toString();
-    	System.out.println("stringKey: " + stringKey);
+    	if(DEBUG)System.out.println("stringKey: " + stringKey);
 		if(!temp.containsKey(stringKey)){
-			System.out.println("inte temp.containsKey(stringKey)");
+			if(DEBUG)System.out.println("inte temp.containsKey(stringKey)");
 			temp.put(stringKey, 1);
 		}else{
-			System.out.println("temp.containsKey(stringKey)");
+			if(DEBUG)System.out.println("temp.containsKey(stringKey)");
 			temp.put(stringKey, temp.get(stringKey)+1);
 		}
     }
@@ -116,7 +117,7 @@ public class Main {
     }
 
     public boolean millerRabin(BigInteger toTest){
-        System.out.println("Starting miller rabin");
+    	if(DEBUG)System.out.println("Starting miller rabin");
         Random rng = new Random();
         boolean isProbablyPrime = false;
 
@@ -141,7 +142,7 @@ public class Main {
             //moved this from inner for-loop back to this
             return isProbablyPrime;
         }
-        System.out.println(toTest + " is probably prime");
+        if(DEBUG)System.out.println(toTest + " is probably prime");
         return true;
     }
 
@@ -174,12 +175,12 @@ public class Main {
         BigInteger y = BigInteger.valueOf(2);
         BigInteger d = BigInteger.valueOf(1);
         while(d.equals(BigInteger.ONE)){
-            System.out.println("Inside while loop pollardRho");
+        	if(DEBUG)System.out.println("Inside while loop pollardRho");
             x = ((x.pow(2)).add(BigInteger.ONE)).mod(n);
             y = (((((y.pow(2)).add(BigInteger.ONE)).mod(n)).pow(2)).add(BigInteger.ONE)).mod(n);
             BigInteger temp = (x.subtract(y)).abs();
             d = bigIntGcd(temp, n);
-            System.out.println("x = " + x + ", y = " + y + ", d = " + d);
+            if(DEBUG)System.out.println("x = " + x + ", y = " + y + ", d = " + d);
         }
         if(d.equals(n)){
             return BigInteger.valueOf(-1);
@@ -204,7 +205,7 @@ public class Main {
                 count += 1;
                 h = bigIntGcd((x.subtract(x_fixed).abs()), n);
                 if(count%100000 == 0){
-                    System.out.println("Calculating in PollardRho");
+                	if(DEBUG)System.out.println("Calculating in PollardRho");
                 }
             }
             if (!h.equals(BigInteger.ONE)){
@@ -255,7 +256,7 @@ public class Main {
         	BigInteger temp = BigInteger.valueOf(Integer.parseInt(line));
         	if(temp.compareTo(b) != -1) break;
         	if(legendre(temp, n) == 1){
-        		System.out.println("This is line: "+ line);
+        		if(DEBUG)System.out.println("This is line: "+ line);
         		bw.write(line);
         	}
         	line=br.readLine();
