@@ -43,17 +43,18 @@ public class Main {
         	temp = new HashMap<String, Integer>(); 
         	long currentTime = System.currentTimeMillis();
         	endTime = currentTime+6000;
-        	while(currentTime < endTime && keepLoop == 0){
+        	while(keepLoop == 0){
         		System.out.println("curr = " + curr);
         		keepLoop = calcFactorsPollardRho(curr, temp);
-        		currentTime = System.currentTimeMillis();
-        		if(currentTime >= endTime){
-        			temp = null;
-        			g.printResult(null);
-        			print = false;
-        		}
+        		//currentTime = System.currentTimeMillis();
+        		
         	}
-        	if(print) g.printResult(temp);
+        	if(keepLoop == -1){
+    			temp = null;
+    			g.printResult(null);
+    			print = false;
+    		}
+        	if(keepLoop == 1) g.printResult(temp);
         	String tmpstr = br.readLine();
         	if(tmpstr != null){
         		curr = new BigInteger(tmpstr);
