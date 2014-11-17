@@ -20,7 +20,7 @@ public class Main {
     Generator g;
     HashMap<String, Integer> temp;
     final boolean DEBUG = false;
-    int runTime = 60;
+    int runTime = 10;
 
     public static void main(String[] args) throws IOException {
     	Main main = new Main();       
@@ -101,7 +101,7 @@ public class Main {
     		BigInteger numDivisible = null;
     		if(firstFactor.equals(BigInteger.valueOf(-1))){
     			if(DEBUG)System.out.println("STARTING POLLARD RHO");
-    			firstFactor = pollardRhoNew(n);
+    			firstFactor = brent(n);
     			if(DEBUG)System.out.println("Inside pollardRho-if. firstFactor = " + firstFactor);
     			if(firstFactor.equals(BigInteger.valueOf(-1))){
     				return -1; //Pollard Rho fails to find factor, and times out
@@ -467,6 +467,7 @@ public class Main {
                                 break
          
         return g
+    }*/
     
     public BigInteger brent(BigInteger n){
     	if(n.mod(BigInteger.valueOf(2)).equals(BigInteger.ZERO)){
@@ -474,6 +475,50 @@ public class Main {
     	}
     	BigInteger y,c,m;
     	y = randomizeBigInt(n.subtract(BigInteger.ONE));
-    }*/
+    	c = randomizeBigInt(n.subtract(BigInteger.ONE));
+    	m = randomizeBigInt(n.subtract(BigInteger.ONE));
+        BigInteger g,r,q, x, ys;
+        g = BigInteger.ONE;
+        r = BigInteger.ONE;
+        q = BigInteger.ONE;
+        x = BigInteger.ONE;
+        ys = BigInteger.ONE;
+        long startTime = System.currentTimeMillis();
+        long endTime = startTime+(runTime*1000);
+        while(g.equals(BigInteger.ONE)){
+        	x = y;
+        	for(int i = 0; i < r.intValue(); i++){
+        		y = modPow3(y, BigInteger.valueOf(2), n);
+        		y = (y.add(c)).mod(n);
+        	}
+        	BigInteger k=BigInteger.ZERO;
+        	while(k.compareTo(r) == -1 && g.equals(BigInteger.ONE) && System.currentTimeMillis() < endTime){
+        		ys = y;
+        		BigInteger tmp = m.min(r.subtract(k));
+        		for (int i = 0; i < tmp.intValue(); i++){
+        			y = modPow3(y, BigInteger.valueOf(2), n);
+            		y = (y.add(c)).mod(n);
+            		q = (q.multiply((x.subtract(y)).abs())).mod(n);
+        		}
+        		g = bigIntGcd(q, n);
+        		k = k.add(m);
+        	}
+        	if(System.currentTimeMillis() > endTime){
+        		return BigInteger.valueOf(-1);
+        	}
+        	r = r.multiply(BigInteger.valueOf(2));
+        }
+        if(g.equals(n)){
+        	while(true){
+        		ys = modPow3(ys, BigInteger.valueOf(2), n);
+        		ys = (ys.add(c)).mod(n);
+        		g = bigIntGcd((x.subtract(ys)).abs(),n);
+        		if(g.compareTo(BigInteger.ONE) == 1){
+        			break;
+        		}
+        	}
+        }
+        return g;
+    }
     
 }
