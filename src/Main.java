@@ -108,12 +108,12 @@ public class Main {
     		}
     		
     		String stringKey = firstFactor.toString();
-    		System.out.println("stringKey: " + stringKey);
+    		//System.out.println("stringKey: " + stringKey);
     		if(!temp.containsKey(stringKey)){
-    			System.out.println("inte temp.containsKey(stringKey)");
+    			//System.out.println("inte temp.containsKey(stringKey)");
     			temp.put(stringKey, 1);
     		}else{
-    			System.out.println("temp.containsKey(stringKey)");
+    			//System.out.println("temp.containsKey(stringKey)");
     			temp.put(stringKey, temp.get(stringKey)+1);
     		}
     		
@@ -123,7 +123,7 @@ public class Main {
 			isPrime = millerRabin(n);
     	}
     	
-    	return false;
+    	return true;
     }
     
     public int gcd(int a, int b){
