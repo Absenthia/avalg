@@ -40,7 +40,7 @@ public class Brent extends Thread{
     			BufferedReader resbr = new BufferedReader(new FileReader(resPath));
     			for(int i=0; i<10; i++){
     				String currentRes = resbr.readLine();
-    				if(tmp != null){
+    				if(currentRes != null){
     					numbers[i] = currentRes;
     				}else{
     					numbers[i] = null;
