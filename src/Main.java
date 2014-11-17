@@ -195,7 +195,7 @@ public class Main {
         int cycle_size = 2;
         BigInteger h = BigInteger.ONE;
         long startTime = System.currentTimeMillis();
-        long endTime = startTime+10000;
+        long endTime = startTime+(120*1000);
         
         while (h.equals(BigInteger.ONE) && System.currentTimeMillis() < endTime){
             int count = 1;
