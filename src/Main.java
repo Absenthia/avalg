@@ -38,7 +38,6 @@ public class Main {
     	BufferedReader br = new BufferedReader(new FileReader(pNum + ".txt"));
     	BigInteger curr = new BigInteger(br.readLine());
         int keepLoop = 0;
-        boolean print = true;
         while(curr != null){
         	temp = new HashMap<String, Integer>(); 
         	long currentTime = System.currentTimeMillis();
@@ -47,20 +46,14 @@ public class Main {
         		System.out.println("curr = " + curr);
         		keepLoop = calcFactorsPollardRho(curr, temp);
         		//currentTime = System.currentTimeMillis();
-        		
         	}
         	if(keepLoop == -1){
-    			temp = null;
     			g.printResult(null);
-    			print = false;
+    		}else{
+    			g.printResult(temp);
     		}
-        	if(keepLoop == 1) g.printResult(temp);
-        	String tmpstr = br.readLine();
-        	if(tmpstr != null){
-        		curr = new BigInteger(tmpstr);
-        	}else curr = null;
+    		curr = new BigInteger(br.readLine());
         	keepLoop = 0;
-        	print = true;
         }
         br.close();
         //BigInteger b = calcB(bigge);
