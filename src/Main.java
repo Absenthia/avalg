@@ -139,7 +139,7 @@ public class Main {
     	BufferedReader br;
     	
     	int start = x;
-		int end = start+5;
+		int end = start+4;
 		int length = y-x+1;
 		int intervals = length/5;
     	for(int i=0; i<intervals; i++){
