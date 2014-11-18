@@ -126,7 +126,12 @@ public class Main {
 	    			resfile[i] = null;
 	    		}
 	    	}
-	    }	
+	    }else{
+	    	for(int i=0; i<100; i++){
+	    		resfile[i] = null;
+	    	}
+	    }
+	    
     	PrintWriter pnrwr = new PrintWriter(new FileWriter(resPath));
 		pnrwr.println(pNum+" "+J);//TODO VALUE OF j NOT ZERO
 		pnrwr.flush();
@@ -135,20 +140,26 @@ public class Main {
     	
     	int start = x;
 		int end = y;
-		int length = y;
-		int intervals = 100/length;
+		int length = end-start+1;
+		int intervals = length/5;
     	for(int i=0; i<intervals; i++){
     		br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+end+"_"+J+ "_res.txt"));
     		for(int j=0; j<length; j++){
     			String tmp = br.readLine();
-    			if(tmp != null){
-    				pnrwr.print(tmp);
+    			if(!tmp.equals("")){
+    				resfile[start+j] = tmp;
     			}
-    			pnrwr.println();
     		}
     		br.close();
     		start +=length;
     		end +=length;
+    	}
+    	for(int i=0; i<resfile.length; i++){
+    		String current = resfile[i];
+    		if(current != null){
+    			pnrwr.print(current);
+    		}
+    		pnrwr.println();
     	}
     	pnrwr.flush();
     }
