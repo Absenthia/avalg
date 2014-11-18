@@ -21,14 +21,15 @@ public class Brent implements Runnable{
     final boolean DEBUG = false;
     String pNum;
     int start, stop, runTime, length;
-    final int J = 20;
+    int J;
     int counter;
     
-	public Brent(String pNum, int start, int stop, int runTime){
+	public Brent(String pNum, int start, int stop, int J, int runTime){
 		this.pNum = pNum;
 		this.start = start;
 		this.stop = stop;
 		this.runTime = runTime;
+		this.J = J;
 		length = stop - start + 1;
 	}
 	
