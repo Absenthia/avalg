@@ -37,7 +37,7 @@ public class Brent implements Runnable{
     	try {
 
     		String[] numbers = new String[length];
-    		String resPath = pNum+"_"+start+"-"+stop+ "_res.txt";
+    		String resPath = pNum+"_"+start+"-"+stop+"_"+J+ "_res.txt";
     		File tmp = new File(resPath);
     		if(tmp.isFile()){
     			BufferedReader resbr = new BufferedReader(new FileReader(resPath));
@@ -60,7 +60,7 @@ public class Brent implements Runnable{
     		
 			g = new Generator(new BigInteger(pNum), J, start, stop);
 		
-	    	BufferedReader br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+stop+ ".txt"));
+	    	BufferedReader br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+stop+"_"+J+ ".txt"));
 	        int keepLoop = 0;
 	        counter = 0;
 	        for(int i = 0; i < length; i++){
