@@ -139,8 +139,8 @@ public class Main {
     	BufferedReader br;
     	
     	int start = x;
-		int end = y;
-		int length = end-start+1;
+		int end = start+5;
+		int length = y-x+1;
 		int intervals = length/5;
     	for(int i=0; i<intervals; i++){
     		br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+end+"_"+J+ "_res.txt"));
@@ -151,8 +151,8 @@ public class Main {
     			}
     		}
     		br.close();
-    		start +=length;
-    		end +=length;
+    		start +=5;
+    		end +=5;
     	}
     	for(int i=0; i<resfile.length; i++){
     		String current = resfile[i];
