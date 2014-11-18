@@ -111,7 +111,7 @@ public class Main {
     }
     
     public void rebuildFile(String pNum, int x, int y, int J) throws IOException{
-    	PrintWriter pnrwr = new PrintWriter(new FileWriter(pNum+"_res.txt"));
+    	PrintWriter pnrwr = new PrintWriter(new FileWriter(pNum+"_"+J+"_res.txt"));
 		pnrwr.println(pNum+" "+J);//TODO VALUE OF j NOT ZERO
 		pnrwr.flush();
 		
@@ -122,7 +122,7 @@ public class Main {
 		int length = y;
 		int intervals = 100/length;
     	for(int i=0; i<intervals; i++){
-    		br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+end+ "_res.txt"));
+    		br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+end+"_"+J+ "_res.txt"));
     		for(int j=0; j<length; j++){
     			String tmp = br.readLine();
     			if(tmp != null){
