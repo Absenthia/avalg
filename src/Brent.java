@@ -123,7 +123,9 @@ public class Brent implements Runnable{
     				return -1; //Pollard Rho fails to find factor, and times out
     			}
     		}
-    		
+    		if(!millerRabin(firstFactor)){
+    			continue;
+    		}
     		addPrime(firstFactor);
     		
 			numDivisible = n.divide(firstFactor);

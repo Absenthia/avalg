@@ -118,9 +118,11 @@ public class Main {
     	File tmpfile = new File(resPath);
 	    if(tmpfile.isFile()){
 	    	BufferedReader resbr = new BufferedReader(new FileReader(resPath));
+	    	resbr.readLine();
+	    	//kommentar
 	    	for(int i=0; i<100; i++){
 	    		String line = resbr.readLine();
-	    		if(!line.equals("")){
+	    		if(line != null){
 	    			resfile[i] = line;
 	    		}else{
 	    			resfile[i] = null;
