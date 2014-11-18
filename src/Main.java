@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -111,7 +112,22 @@ public class Main {
     }
     
     public void rebuildFile(String pNum, int x, int y, int J) throws IOException{
-    	PrintWriter pnrwr = new PrintWriter(new FileWriter(pNum+"_"+J+"_res.txt"));
+    	String[] resfile = new String[100];
+    	String resPath = pNum+"_"+J+"_res.txt";
+    	
+    	File tmpfile = new File(resPath);
+	    if(tmpfile.isFile()){
+	    	BufferedReader resbr = new BufferedReader(new FileReader(resPath));
+	    	for(int i=0; i<100; i++){
+	    		String line = resbr.readLine();
+	    		if(!line.equals("")){
+	    			resfile[i] = line;
+	    		}else{
+	    			resfile[i] = null;
+	    		}
+	    	}
+	    }	
+    	PrintWriter pnrwr = new PrintWriter(new FileWriter(resPath));
 		pnrwr.println(pNum+" "+J);//TODO VALUE OF j NOT ZERO
 		pnrwr.flush();
 		
