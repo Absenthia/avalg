@@ -79,12 +79,12 @@ public class Main {
 
     	ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
     	int start = startval;
-    	int stop = stopval;
+    	int stop = start+4;
     	for(int i=0; i<intervals; i++){
     		Brent worker = new Brent(pNum, start, stop, J, runSec);
     		executor.execute(worker);
-    		start += length;
-    		stop += length;
+    		start += 5;
+    		stop += 5;
     	}
     	//Finish all threads in queue
     	executor.shutdown();
