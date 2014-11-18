@@ -144,10 +144,10 @@ public class Main {
 		int intervals = length/5;
     	for(int i=0; i<intervals; i++){
     		br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+end+"_"+J+ "_res.txt"));
-    		for(int j=0; j<length; j++){
+    		for(int j=0; j<5; j++){
     			String tmp = br.readLine();
     			if(!tmp.equals("")){
-    				resfile[start+j] = tmp;
+    				resfile[start+j-1] = tmp;
     			}
     		}
     		br.close();
