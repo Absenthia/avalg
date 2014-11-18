@@ -93,6 +93,7 @@ public class Brent implements Runnable{
 	        	}
 	        }
 	        reswr.flush();
+	        reswr.close();
 	        System.out.println("Factorized " + counter + "composite numbers");
 	        br.close();      
     	} catch (IOException e) {
@@ -107,7 +108,6 @@ public class Brent implements Runnable{
     }
     
     public int calcFactorsPollardRho(BigInteger n, int runTime) throws IOException{
-    	
     	boolean isPrime = millerRabin(n);
     	BigInteger firstFactor = n;
     	while(!isPrime){
@@ -123,9 +123,10 @@ public class Brent implements Runnable{
     				return -1; //Pollard Rho fails to find factor, and times out
     			}
     		}
+    		/*
     		if(!millerRabin(firstFactor)){
     			continue;
-    		}
+    		}*/
     		addPrime(firstFactor);
     		
 			numDivisible = n.divide(firstFactor);
@@ -328,6 +329,7 @@ public class Brent implements Runnable{
         	}
     		p = new BigInteger(br.readLine());
     	}
+    	br.close();
     	return BigInteger.valueOf(-1);
     }
 

@@ -30,6 +30,7 @@ public class Generator {
 		this.J = J;
 		pnrwr = new PrintWriter(new FileWriter(pnr+"_"+x+"-"+y+"_"+J+".txt"));
 		printerino(x, y);
+		pnrwr.close();
 	}
 	
 	public void printerino() throws IOException{

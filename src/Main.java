@@ -64,7 +64,7 @@ public class Main {
 	    	}
 	    }
     	
-
+	    b.close();
     	
     }
     
@@ -128,6 +128,7 @@ public class Main {
 	    			resfile[i] = null;
 	    		}
 	    	}
+	    	resbr.close();
 	    }else{
 	    	for(int i=0; i<100; i++){
 	    		resfile[i] = null;
@@ -164,6 +165,7 @@ public class Main {
     		pnrwr.println();
     	}
     	pnrwr.flush();
+    	pnrwr.close();
     }
     
 }
