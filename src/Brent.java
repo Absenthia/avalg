@@ -112,7 +112,7 @@ public class Brent implements Runnable{
     	BigInteger firstFactor = n;
     	while(!isPrime){
     		if(DEBUG)System.out.println("n, beginning of loop: " + n.toString());
-    		firstFactor = testDivide(n, 700000);
+    		firstFactor = trialDivision(n, 700000);
     		if(DEBUG)System.out.println("firstFactor (after testDivide) = " + firstFactor);
     		BigInteger numDivisible = null;
     		if(firstFactor.equals(BigInteger.valueOf(-1))){
@@ -283,7 +283,7 @@ public class Brent implements Runnable{
 
     public BigInteger quadraticSieve(BigInteger n) throws IOException{
     	//Step 1
-        BigInteger factor = testDivide(n, 100000); //TODO - what upper bound do we want?
+        BigInteger factor = trialDivision(n, 100000); //TODO - what upper bound do we want?
         if(!factor.equals(BigInteger.valueOf(-1))){
             return factor;
         }
@@ -320,7 +320,7 @@ public class Brent implements Runnable{
         return b; //TODO - change to different return value
     }
 
-    public BigInteger testDivide(BigInteger n, Integer upperBound) throws IOException{
+    public BigInteger trialDivision(BigInteger n, Integer upperBound) throws IOException{
     	BufferedReader br = new BufferedReader(new FileReader("primes.txt"));
     	BigInteger p = new BigInteger(br.readLine());
     	for(int i = 0; i < upperBound; i++){

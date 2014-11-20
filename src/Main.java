@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class Main {
-	static final int NUM_THREADS = 2;
+	static final int NUM_THREADS = 3;
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
