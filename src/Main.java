@@ -75,7 +75,7 @@ public class Main {
     }
     
     public void runChosen(String pNum, int[] numbers, int J, int runTime) throws InterruptedException, IOException{
-    	int runSec = runTime;
+    	long runSec = runTime*1000;//runTime*60*1000;
     	
 
     	ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);

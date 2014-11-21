@@ -22,12 +22,13 @@ public class Brent implements Runnable{
     HashMap<String, Integer> temp;
     final boolean DEBUG = false;
     String pNum;
-    int number, runTime;
+    int number;
+    long runTime;
     int J;
     long endTime;
     long foundFactor;
     
-	public Brent(String pNum, int number, int J, int runTime){
+	public Brent(String pNum, int number, int J, long runTime){
 		this.pNum = pNum;
 		this.number=number;
 		this.runTime = runTime;
@@ -46,7 +47,7 @@ public class Brent implements Runnable{
         	temp = new HashMap<String, Integer>();
         	while(keepLoop == 0){
         		if(DEBUG)System.out.println("curr = " + bigNumber);
-        		keepLoop = calcFactorsPollardRho(bigNumber, runTime);
+        		keepLoop = calcFactorsPollardRho(bigNumber);
         	}
         	if(keepLoop == -1){
     			System.out.println("Failed to factorize " + bigNumber.toString());
@@ -68,7 +69,7 @@ public class Brent implements Runnable{
 		}
     }
     
-    public int calcFactorsPollardRho(BigInteger n, int runTime) throws IOException{
+    public int calcFactorsPollardRho(BigInteger n) throws IOException{
     	boolean isPrime = millerRabin(n);
     	BigInteger firstFactor = n;
     	foundFactor = runTime/5;
