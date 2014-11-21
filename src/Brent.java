@@ -38,38 +38,23 @@ public class Brent implements Runnable{
     	try {
 
     		String resPath = pNum+"_"+number+"_"+J+ "_res.txt";
-    		File tmp = new File(resPath);
-    		String currentRes;
-    		if(tmp.isFile()){
-    			BufferedReader resbr = new BufferedReader(new FileReader(resPath));
-				currentRes = resbr.readLine();
-				//System.out.println("currentRes = " + currentRes);
-				if(currentRes == null){
-					currentRes = null;
-				}
-    			resbr.close();
-    		}else{
-    			currentRes = null;
-    		}
     		
     		BigInteger bigNumber = calcNumber();
 		
 	        int keepLoop = 0;
 	        String currString = null;
-        	if(currentRes == null){
-	        	temp = new HashMap<String, Integer>();
-	        	while(keepLoop == 0){
-	        		if(DEBUG)System.out.println("curr = " + bigNumber);
-	        		keepLoop = calcFactorsPollardRho(bigNumber, runTime);
-	        	}
-	        	if(keepLoop == -1){
-	    			System.out.println("Failed to factorize " + bigNumber.toString());
-	        		currString = null;
-	    		}else{
-	    			System.out.println("Factorized " + bigNumber.toString());
-	    			currString = printResult();
-	    		}
+        	temp = new HashMap<String, Integer>();
+        	while(keepLoop == 0){
+        		if(DEBUG)System.out.println("curr = " + bigNumber);
+        		keepLoop = calcFactorsPollardRho(bigNumber, runTime);
         	}
+        	if(keepLoop == -1){
+    			System.out.println("Failed to factorize " + bigNumber.toString());
+        		currString = null;
+    		}else{
+    			System.out.println("Factorized " + bigNumber.toString());
+    			currString = printResult();
+    		}
 
         	PrintWriter reswr = new PrintWriter(new FileWriter(resPath));
         	if(currString != null){
@@ -106,10 +91,10 @@ public class Brent implements Runnable{
     				return -1; //Pollard Rho fails to find factor, and times out
     			}
     		}
-    		/*
+    		
     		if(!millerRabin(firstFactor)){
     			continue;
-    		}*/
+    		}
     		addPrime(firstFactor);
     		endTime += foundFactor;
 			numDivisible = n.divide(firstFactor);
