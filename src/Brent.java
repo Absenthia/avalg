@@ -44,7 +44,7 @@ public class Brent implements Runnable{
     			BufferedReader resbr = new BufferedReader(new FileReader(resPath));
 				currentRes = resbr.readLine();
 				//System.out.println("currentRes = " + currentRes);
-				if(currentRes.equals("")){
+				if(currentRes == null){
 					currentRes = null;
 				}
     			resbr.close();
@@ -88,7 +88,7 @@ public class Brent implements Runnable{
     	BigInteger firstFactor = n;
     	foundFactor = runTime/5;
     	long startTime = System.currentTimeMillis();
-        endTime = startTime+(runTime*1000);
+        endTime = startTime+(runTime*60*1000);
 
     	while(!isPrime){
     		if(System.currentTimeMillis() > endTime){

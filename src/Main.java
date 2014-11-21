@@ -142,7 +142,7 @@ public class Main {
     	for(int i=0; i<numbers.length; i++){
     		br = new BufferedReader(new FileReader(pNum+"_"+numbers[i]+"_"+J+ "_res.txt"));
 			String tmp = br.readLine();
-			if(!tmp.equals("")){
+			if(tmp != null){
 				resfile[numbers[i]] = tmp;
 			}
     		br.close();
