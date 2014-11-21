@@ -91,9 +91,9 @@ public class Brent implements Runnable{
     				return -1; //Pollard Rho fails to find factor, and times out
     			}
     		}
-    		
-    		if(!millerRabin(firstFactor)){
-    			continue;
+    		if(!firstFactor.equals(BigInteger.valueOf(2))){
+            	if((firstFactor.mod(BigInteger.valueOf(2)).equals(0))) continue;
+            	if(!millerRabin(firstFactor)) continue;
     		}
     		System.out.println("after millerrabin");
     		addPrime(firstFactor);
@@ -140,7 +140,7 @@ public class Brent implements Runnable{
     	System.out.println("Starting miller rabin");
         //Random rng = new Random();
         boolean isProbablyPrime = false;
-
+        
         BigInteger nMinusOne = toTest.subtract(BigInteger.ONE);
         int s = nMinusOne.getLowestSetBit(); //Finds powers of two
         BigInteger d = nMinusOne.divide(BigInteger.valueOf(2).pow(s));
@@ -162,7 +162,7 @@ public class Brent implements Runnable{
             //moved this from inner for-loop back to this
             return isProbablyPrime;
         }
-        if(DEBUG)System.out.println(toTest + " is probably prime");
+        System.out.println(toTest + " is probably prime");
         return true;
     }
 
