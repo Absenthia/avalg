@@ -72,7 +72,7 @@ public class Brent implements Runnable{
     public int calcFactorsPollardRho(BigInteger n) throws IOException{
     	boolean isPrime = millerRabin(n);
     	BigInteger firstFactor = n;
-    	foundFactor = runTime/5;
+    	//foundFactor = runTime/5;
     	long startTime = System.currentTimeMillis();
         endTime = startTime+runTime;
 
@@ -92,13 +92,9 @@ public class Brent implements Runnable{
     				return -1; //Pollard Rho fails to find factor, and times out
     			}
     		}
-    		if(!firstFactor.equals(BigInteger.valueOf(2))){
-            	if((firstFactor.mod(BigInteger.valueOf(2)).equals(0))) continue;
-            	if(!millerRabin(firstFactor)) continue;
-    		}
-    		System.out.println("after millerrabin");
+    		if(DEBUG) System.out.println("after millerrabin");
     		addPrime(firstFactor);
-    		endTime += foundFactor;
+    		//endTime += foundFactor;
 			numDivisible = n.divide(firstFactor);
 			n = numDivisible;
 			if(DEBUG)System.out.println("new n, for next loop: " + n.toString());
@@ -138,7 +134,9 @@ public class Brent implements Runnable{
     }
 
     public boolean millerRabin(BigInteger toTest){
-    	System.out.println("Starting miller rabin");
+    	//System.out.println("Starting miller rabin");
+    	if(toTest.compareTo(BigInteger.valueOf(3)) != 1) return true;
+        if((toTest.mod(BigInteger.valueOf(2)).equals(0))) return false;
         //Random rng = new Random();
         boolean isProbablyPrime = false;
         
