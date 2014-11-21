@@ -11,7 +11,7 @@ import java.util.Map.Entry;
 public class Generator {
 	PrintWriter pnrwr;
 	BigInteger pnr;
-	int J, x, y;
+	int J;
 	
 	/*public static void main(String[] args) throws IOException {
 		BigInteger pnr = new BigInteger("7910200059");
@@ -25,11 +25,11 @@ public class Generator {
 		pnrwr = new PrintWriter(new FileWriter(pnr+"_"+J+".txt"));
 	}
 	
-	public Generator(BigInteger pnr, int J, int x, int y) throws IOException{
+	public Generator(BigInteger pnr, int J, int number) throws IOException{
 		this.pnr = pnr;
 		this.J = J;
-		pnrwr = new PrintWriter(new FileWriter(pnr+"_"+x+"-"+y+"_"+J+".txt"));
-		printerino(x, y);
+		pnrwr = new PrintWriter(new FileWriter(pnr+"_"+number+"_"+J+".txt"));
+		printerino(number);
 		pnrwr.close();
 	}
 	
@@ -44,15 +44,12 @@ public class Generator {
 		pnrwr.flush();
 	}
 	
-	public void printerino(int x, int y) throws IOException{
+	public void printerino(int number) throws IOException{
 		BigInteger exponent = BigInteger.valueOf(10);
 		exponent = exponent.pow(60+J);
 		pnr = pnr.multiply(exponent);
-		pnr = pnr.add(BigInteger.valueOf(x));
-		for(int i=x; i<=y; i++){
-			pnrwr.println(pnr.toString());
-			pnr = pnr.add(BigInteger.ONE);
-		}
+		pnr = pnr.add(BigInteger.valueOf(number));
+		pnrwr.println(pnr.toString());
 		pnrwr.flush();
 	}
 	

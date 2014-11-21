@@ -26,7 +26,7 @@ public class Main {
 	    	System.out.println("Choose method:");
 	    	System.out.println("1: Run all");
 	    	System.out.println("2: Run all for specific pnr");
-	    	System.out.println("3: Run specific interval for specific pnr");
+	    	System.out.println("3: Run specific numbers for specific pnr");
 	    	System.out.println("4: Exit program");
 	    	
 	    	int choice = Integer.parseInt(b.readLine());
@@ -49,16 +49,18 @@ public class Main {
 	    	}else if(choice == 3){
 	    		System.out.println("Enter pnr");
 	    		String pNum = b.readLine();
-	    		System.out.println("Enter start point");
-	    		int startval = Integer.parseInt(b.readLine());
-	    		System.out.println("Enter end point");
-	    		int stopval = Integer.parseInt(b.readLine());
+	    		System.out.println("Enter numbers separated by space");
+	    		String[] nums = b.readLine().split(" ");
+	    		int[] numbers = new int[nums.length];
+	    		for(int i=0; i<nums.length; i++){
+	    			numbers[i] = Integer.parseInt(nums[i]);
+	    		}
 	    		System.out.println("Enter J value");
 	    		int j = Integer.parseInt(b.readLine());
 	    		System.out.println("Enter runtime in minutes");
 	    		int runTime = Integer.parseInt(b.readLine());
 	    		
-	    		m.runChosen(pNum, startval, stopval, j, runTime);
+	    		m.runChosen(pNum, numbers, j, runTime);
 	    	}else if(choice == 4){
 	    		running = false;
 	    	}
@@ -72,33 +74,29 @@ public class Main {
     	
     }
     
-    public void runChosen(String pNum, int startval, int stopval, int J, int runTime) throws InterruptedException, IOException{
-    	int length = stopval-startval+1;
-    	int intervals = length/5;
-    	int runSec = runTime*60;
+    public void runChosen(String pNum, int[] numbers, int J, int runTime) throws InterruptedException, IOException{
+    	int runSec = runTime;
     	
 
     	ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
-    	int start = startval;
-    	int stop = start+4;
-    	for(int i=0; i<intervals; i++){
-    		Brent worker = new Brent(pNum, start, stop, J, runSec);
+    	
+    	for(int i=0; i<numbers.length; i++){
+    		Brent worker = new Brent(pNum, numbers[i], J, runSec);
     		executor.execute(worker);
-    		start += 5;
-    		stop += 5;
     	}
     	//Finish all threads in queue
     	executor.shutdown();
     	executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
     	
-    	rebuildFile(pNum,startval,stopval, J);
+    	rebuildFile(pNum,numbers, J);
     }
     
     public void runAllOne(String pNum, int J, int runTime) throws InterruptedException, IOException{
-    	int startval = 1;
-    	int stopval = 100;
-    	
-    	runChosen(pNum, startval, stopval, J, runTime);
+    	int[] numbers = new int[100];
+    	for(int i=0; i<100; i++){
+    		numbers[i] = i+1;
+    	}
+    	runChosen(pNum, numbers, J, runTime);
     }
     
     public void runAll(int J, int runTime) throws IOException, InterruptedException{
@@ -111,7 +109,7 @@ public class Main {
     	runAllOne(pNum, J, runTime);    
     }
     
-    public void rebuildFile(String pNum, int x, int y, int J) throws IOException{
+    public void rebuildFile(String pNum, int[] numbers, int J) throws IOException{
     	String[] resfile = new String[100];
     	String resPath = pNum+"_"+J+"_res.txt";
     	
@@ -141,21 +139,13 @@ public class Main {
 		
     	BufferedReader br;
     	
-    	int start = x;
-		int end = start+4;
-		int length = y-x+1;
-		int intervals = length/5;
-    	for(int i=0; i<intervals; i++){
-    		br = new BufferedReader(new FileReader(pNum+"_"+start+"-"+end+"_"+J+ "_res.txt"));
-    		for(int j=0; j<5; j++){
-    			String tmp = br.readLine();
-    			if(!tmp.equals("")){
-    				resfile[start+j-1] = tmp;
-    			}
-    		}
+    	for(int i=0; i<numbers.length; i++){
+    		br = new BufferedReader(new FileReader(pNum+"_"+numbers[i]+"_"+J+ "_res.txt"));
+			String tmp = br.readLine();
+			if(!tmp.equals("")){
+				resfile[numbers[i]] = tmp;
+			}
     		br.close();
-    		start +=5;
-    		end +=5;
     	}
     	for(int i=0; i<resfile.length; i++){
     		String current = resfile[i];
