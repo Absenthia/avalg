@@ -73,7 +73,7 @@ public class Brent implements Runnable{
     	BigInteger firstFactor = n;
     	foundFactor = runTime/5;
     	long startTime = System.currentTimeMillis();
-        endTime = startTime+(runTime*60*1000);
+        endTime = startTime+runTime;
 
     	while(!isPrime){
     		if(System.currentTimeMillis() > endTime){
@@ -95,6 +95,7 @@ public class Brent implements Runnable{
     		if(!millerRabin(firstFactor)){
     			continue;
     		}
+    		System.out.println("after millerrabin");
     		addPrime(firstFactor);
     		endTime += foundFactor;
 			numDivisible = n.divide(firstFactor);
@@ -136,7 +137,7 @@ public class Brent implements Runnable{
     }
 
     public boolean millerRabin(BigInteger toTest){
-    	if(DEBUG)System.out.println("Starting miller rabin");
+    	System.out.println("Starting miller rabin");
         //Random rng = new Random();
         boolean isProbablyPrime = false;
 
